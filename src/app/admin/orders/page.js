@@ -63,7 +63,10 @@ export default function AdminOrders() {
               {orders.map(order => (
                 <tr key={order.id}>
                   <td><strong>#{order.id.slice(0, 8)}</strong></td>
-                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    {new Date(order.createdAt).toLocaleDateString()}<br/>
+                    <span style={{ fontSize: '11px', color: '#666' }}>{new Date(order.createdAt).toLocaleTimeString()}</span>
+                  </td>
                   <td>
                     <div>
                       <div>{order.shippingAddress?.name || 'Guest'}</div>
@@ -94,7 +97,16 @@ export default function AdminOrders() {
                     </select>
                   </td>
                   <td>
-                    <div className="admin-actions">
+                    <div className="admin-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {order.status === 'pending' && (
+                        <button 
+                          onClick={() => handleStatusChange(order.id, 'processing')} 
+                          style={{ background: 'var(--color-primary)', color: 'white', border: 'none', padding: '4px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}
+                          title="Accept Order"
+                        >
+                          Accept
+                        </button>
+                      )}
                       <button className="btn-edit" onClick={() => setSelectedOrder(order)} title="View Details"><Eye size={16} /></button>
                     </div>
                   </td>
@@ -147,6 +159,15 @@ export default function AdminOrders() {
             
             <div style={{ marginTop: '30px', display: 'flex', gap: '10px' }}>
               <button className="btn btn-outline" onClick={() => setSelectedOrder(null)} style={{ flex: 1 }}>Close</button>
+              {selectedOrder.status === 'pending' && (
+                <button 
+                  className="btn btn-primary" 
+                  onClick={() => { handleStatusChange(selectedOrder.id, 'processing'); setSelectedOrder(null); }} 
+                  style={{ flex: 1, border: 'none' }}
+                >
+                  Accept Order
+                </button>
+              )}
               {selectedOrder.status !== 'cancelled' && selectedOrder.status !== 'delivered' && (
                 <button className="btn btn-outline text-error" onClick={() => { handleStatusChange(selectedOrder.id, 'cancelled'); setSelectedOrder(null); }} style={{ flex: 1 }}>Cancel Order</button>
               )}

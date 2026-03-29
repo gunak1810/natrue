@@ -276,6 +276,18 @@ export default function Header() {
       {/* Cart Drawer */}
       <CartDrawer />
 
+      {/* Floating Mobile Cart (visible only on mobile with items) */}
+      {totalItems > 0 && (
+        <button 
+          className="floating-mobile-cart show-mobile" 
+          onClick={() => setIsOpen(true)}
+          aria-label="View Cart"
+        >
+          <ShoppingCart size={24} color="white" />
+          <span className="floating-cart-count">{totalItems}</span>
+        </button>
+      )}
+
       {/* WhatsApp Button */}
       <WhatsAppButton />
 

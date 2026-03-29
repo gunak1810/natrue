@@ -16,13 +16,53 @@ export default function AdminProducts() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
   const [form, setForm] = useState({
     name: '', slug: '', description: '', price: 0, salePrice: 0, 
-    category: '', stock: 0, featured: false, images: []
+    category: '', stock: 0, featured: false, images: [], variants: []
   });
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  // Variant Helpers
+  const addVariant = () => {
+    setForm(prev => ({
+      ...prev,
+      variants: [...(prev.variants || []), { name: '', options: [] }]
+    }));
+  };
+
+  const updateVariantName = (idx, name) => {
+    const newVariants = [...(form.variants || [])];
+    newVariants[idx].name = name;
+    setForm({ ...form, variants: newVariants });
+  };
+
+  const removeVariant = (idx) => {
+    setForm(prev => ({ ...prev, variants: prev.variants.filter((_, i) => i !== idx) }));
+  };
+
+  const addOption = (variantIdx) => {
+    const newVariants = [...(form.variants || [])];
+    newVariants[variantIdx].options.push({ name: '', price: '', salePrice: '' });
+    setForm({ ...form, variants: newVariants });
+  };
+
+  const updateOption = (variantIdx, optionIdx, field, value) => {
+    const newVariants = [...(form.variants || [])];
+    let opt = newVariants[variantIdx].options[optionIdx];
+    if (typeof opt === 'string') {
+      opt = { name: opt, price: '', salePrice: '' };
+    }
+    opt[field] = value === '' ? '' : (field === 'price' || field === 'salePrice' ? parseFloat(value) : value);
+    newVariants[variantIdx].options[optionIdx] = opt;
+    setForm({ ...form, variants: newVariants });
+  };
+
+  const removeOption = (variantIdx, optionIdx) => {
+    const newVariants = [...(form.variants || [])];
+    newVariants[variantIdx].options = newVariants[variantIdx].options.filter((_, i) => i !== optionIdx);
+    setForm({ ...form, variants: newVariants });
+  };
 
 
   const searchParams = useSearchParams();
@@ -108,18 +148,33 @@ export default function AdminProducts() {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     setSubmitting(true);
+    
+    // Clean up empty variants and prices
+    const finalForm = { ...form };
+    if (finalForm.variants) {
+      finalForm.variants = finalForm.variants.map(v => ({
+        name: v.name,
+        options: v.options.map(o => {
+          if (typeof o === 'string') return { name: o }; 
+          const opt = { name: o.name };
+          if (o.price !== '' && o.price !== null && !isNaN(o.price)) opt.price = o.price;
+          if (o.salePrice !== '' && o.salePrice !== null && !isNaN(o.salePrice)) opt.salePrice = o.salePrice;
+          return opt;
+        })
+      }));
+    }
+
     try {
       if (editingId) {
-        await updateProduct(editingId, form);
+        await updateProduct(editingId, finalForm);
       } else {
-        await addProduct(form);
+        await addProduct(finalForm);
       }
       setShowForm(false);
       setEditingId(null);
-      setForm({ name: '', slug: '', description: '', price: 0, salePrice: 0, category: '', stock: 0, featured: false, images: [] });
+      setForm({ name: '', slug: '', description: '', price: 0, salePrice: 0, category: '', stock: 0, featured: false, images: [], variants: [] });
       fetchData();
     } catch (err) {
       console.error('Error saving product:', err);
@@ -130,7 +185,13 @@ export default function AdminProducts() {
   };
 
   const handleEdit = (prod) => {
-    setForm({ ...prod });
+    // Normalize string-based options to object format for the editor
+    const normalizedVariants = (prod.variants || []).map(v => ({
+      name: v.name,
+      options: v.options.map(o => typeof o === 'string' ? { name: o, price: '', salePrice: '' } : { ...o })
+    }));
+    
+    setForm({ ...prod, variants: normalizedVariants });
     setEditingId(prod.id);
     setShowForm(true);
   };
@@ -225,6 +286,68 @@ export default function AdminProducts() {
                   <label className="form-label">Stock Status</label>
                   <input className="form-input" type="number" name="stock" value={form.stock} onChange={handleChange} />
                 </div>
+              </div>
+
+              {/* Variants Section */}
+              <div className="form-group" style={{ background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                  <label className="form-label" style={{ margin: 0 }}>Product Variants (e.g., Size, Color)</label>
+                  <button type="button" className="btn btn-outline btn-sm" onClick={addVariant} style={{ fontSize: '11px', padding: '4px 8px' }}>
+                    <Plus size={14} /> Add Variant Group
+                  </button>
+                </div>
+
+                {form.variants?.map((variant, vIdx) => (
+                  <div key={vIdx} style={{ background: '#fff', padding: '15px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '15px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
+                      <input 
+                        className="form-input" 
+                        placeholder="Variant Name (e.g. Size, Color, Frame Material)" 
+                        value={variant.name} 
+                        onChange={(e) => updateVariantName(vIdx, e.target.value)}
+                        style={{ fontWeight: 'bold' }}
+                      />
+                      <button type="button" className="btn-delete" onClick={() => removeVariant(vIdx)}><Trash2 size={16} /></button>
+                    </div>
+
+                    <div style={{ paddingLeft: '15px', borderLeft: '2px solid #e2e8f0' }}>
+                      <label style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px', display: 'block' }}>Options & Custom Pricing</label>
+                      {variant.options.map((opt, oIdx) => {
+                        const optObj = typeof opt === 'string' ? { name: opt, price: '', salePrice: '' } : opt;
+                        return (
+                          <div key={oIdx} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
+                            <input 
+                              className="form-input" placeholder="Option (e.g. 5x5, Red)" 
+                              value={optObj.name} onChange={(e) => updateOption(vIdx, oIdx, 'name', e.target.value)} 
+                              style={{ flex: 2 }} required
+                            />
+                            <div style={{ flex: 1, position: 'relative' }}>
+                              <span style={{ position: 'absolute', left: 10, top: 12, fontSize: 13, color: '#999' }}>₹</span>
+                              <input 
+                                className="form-input" type="number" placeholder="Price" 
+                                value={optObj.price || ''} onChange={(e) => updateOption(vIdx, oIdx, 'price', e.target.value)} 
+                                style={{ paddingLeft: 22 }}
+                                title="Leave blank to use default product price"
+                              />
+                            </div>
+                            <div style={{ flex: 1, position: 'relative' }}>
+                              <span style={{ position: 'absolute', left: 10, top: 12, fontSize: 13, color: '#999' }}>₹</span>
+                              <input 
+                                className="form-input" type="number" placeholder="Sale" 
+                                value={optObj.salePrice || ''} onChange={(e) => updateOption(vIdx, oIdx, 'salePrice', e.target.value)} 
+                                style={{ paddingLeft: 22 }}
+                              />
+                            </div>
+                            <button type="button" style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }} onClick={() => removeOption(vIdx, oIdx)}><X size={16} /></button>
+                          </div>
+                        );
+                      })}
+                      <button type="button" onClick={() => addOption(vIdx)} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '8px' }}>
+                        <Plus size={12} /> Add Option
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="form-group">

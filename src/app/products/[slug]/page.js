@@ -16,7 +16,7 @@ export default function ProductPage() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedVariants, setSelectedVariants] = useState({});
   const [activeTab, setActiveTab] = useState('description');
   const [loading, setLoading] = useState(true);
 
@@ -25,6 +25,18 @@ export default function ProductPage() {
       try {
         const prod = await getProductBySlug(params.slug);
         setProduct(prod);
+        
+        // Auto-select first options for all variants
+        if (prod && prod.variants) {
+          const initialVars = {};
+          prod.variants.forEach(v => {
+            if (v.options && v.options.length > 0) {
+              initialVars[v.name] = v.options[0];
+            }
+          });
+          setSelectedVariants(initialVars);
+        }
+
         if (prod) {
           const related = await getProducts({ category: prod.category, limit: 4 });
           setRelatedProducts(related.filter(p => p.id !== prod.id));
@@ -51,14 +63,47 @@ export default function ProductPage() {
     </div>
   );
 
-  const discount = product.salePrice < product.price
-    ? Math.round(((product.price - product.salePrice) / product.price) * 100)
+  let currentPrice = product.price;
+  let currentSalePrice = product.salePrice || product.price;
+
+  // Calculate dynamic price based on selected variants if variants contain custom pricing (e.g. Size config)
+  if (product.variants) {
+    product.variants.forEach(v => {
+      const selected = selectedVariants[v.name];
+      // Check if selected option is an object with a price
+      if (selected && typeof selected === 'object' && selected.price !== undefined) {
+        currentPrice = selected.price;
+        currentSalePrice = selected.salePrice || selected.price;
+      }
+    });
+  }
+
+  const discount = currentSalePrice < currentPrice
+    ? Math.round(((currentPrice - currentSalePrice) / currentPrice) * 100)
     : 0;
 
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
       <Star key={i} size={16} fill={i < Math.round(rating) ? '#FFB800' : '#DDD'} color={i < Math.round(rating) ? '#FFB800' : '#DDD'} />
     ));
+  };
+
+  const handleAddToCart = () => {
+    const productToAdd = {
+      ...product,
+      price: currentPrice,
+      salePrice: currentSalePrice
+    };
+    // Flatten variant object to string (e.g. "Color: Pink / Size: 10x10")
+    const variantKeys = Object.keys(selectedVariants);
+    const variantString = variantKeys.length > 0 
+      ? variantKeys.map(k => {
+          const v = selectedVariants[k];
+          return typeof v === 'object' ? `${k}: ${v.name}` : `${k}: ${v}`;
+        }).join(' | ')
+      : null;
+
+    addToCart(productToAdd, quantity, variantString);
   };
 
   return (
@@ -82,66 +127,76 @@ export default function ProductPage() {
           </div>
 
           {/* Product Info */}
-          <div className="product-info">
-            <h1 className="product-title">{product.name}</h1>
-            
-            <div className="product-rating">
-              <div className="stars">{renderStars(product.rating || 0)}</div>
-              <span className="rating-count">({product.reviewCount || 0} reviews)</span>
-            </div>
+            <div className="product-info">
+              <h1 className="product-title">{product.name}</h1>
+              
+              <div className="product-rating">
+                <div className="stars">{renderStars(product.rating || 0)}</div>
+                <span className="rating-count">({product.reviewCount || 0} reviews)</span>
+              </div>
 
-            <div className="product-pricing">
-              <span className="product-sale-price">₹{product.salePrice || product.price}</span>
-              {discount > 0 && (
-                <>
-                  <span className="product-original-price">₹{product.price}</span>
-                  <span className="product-discount">Save {discount}%</span>
-                </>
-              )}
-            </div>
+              <div className="product-pricing">
+                <span className="product-sale-price">₹{currentSalePrice}</span>
+                {discount > 0 && (
+                  <>
+                    <span className="product-original-price">₹{currentPrice}</span>
+                    <span className="product-discount">Save {discount}%</span>
+                  </>
+                )}
+              </div>
 
-            <p className="product-short-desc">{product.description}</p>
+              <p className="product-short-desc">{product.description}</p>
 
-            {/* Variants */}
-            {product.variants?.map((variant, idx) => (
-              <div key={idx} className="product-variant-group">
-                <label className="variant-label">{variant.name}:</label>
-                <div className="variant-options">
-                  {variant.options?.map(option => (
-                    <button
-                      key={option}
-                      className={`variant-btn ${selectedVariant === option ? 'active' : ''}`}
-                      onClick={() => setSelectedVariant(option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
+              {/* Variants */}
+              {product.variants?.map((variant, idx) => (
+                <div key={idx} className="product-variant-group">
+                  <label className="variant-label">{variant.name}:</label>
+                  <div className="variant-options">
+                    {variant.options?.map((option, i) => {
+                      const isObj = typeof option === 'object';
+                      const optName = isObj ? option.name : option;
+                      const selectedVal = selectedVariants[variant.name];
+                      const isSelected = selectedVal && ((typeof selectedVal === 'object' && selectedVal.name === optName) || selectedVal === optName);
+                      
+                      return (
+                        <button
+                          key={i}
+                          className={`variant-btn ${isSelected ? 'active' : ''}`}
+                          onClick={() => setSelectedVariants(prev => ({ ...prev, [variant.name]: option }))}
+                        >
+                          {optName}
+                          {isObj && option.price && (
+                             <span style={{ display: 'block', fontSize: '11px', opacity: 0.8, marginTop: '2px' }}>₹{option.salePrice || option.price}</span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+
+              {/* Quantity */}
+              <div className="product-quantity">
+                <label className="variant-label">Quantity:</label>
+                <div className="qty-selector">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={16} /></button>
+                  <span>{quantity}</span>
+                  <button onClick={() => setQuantity(quantity + 1)}><Plus size={16} /></button>
                 </div>
               </div>
-            ))}
 
-            {/* Quantity */}
-            <div className="product-quantity">
-              <label className="variant-label">Quantity:</label>
-              <div className="qty-selector">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={16} /></button>
-                <span>{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)}><Plus size={16} /></button>
+              {/* Action Buttons */}
+              <div className="product-actions">
+                <button className="btn btn-outline-accent btn-lg btn-full" onClick={handleAddToCart}>
+                  <ShoppingCart size={18} /> ADD TO CART
+                </button>
+                <button className="btn btn-accent btn-lg btn-full" onClick={() => {
+                  handleAddToCart();
+                  window.location.href = '/checkout';
+                }}>
+                  <Zap size={18} /> BUY NOW
+                </button>
               </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="product-actions">
-              <button className="btn btn-outline-accent btn-lg btn-full" onClick={() => addToCart(product, quantity, selectedVariant)}>
-                <ShoppingCart size={18} /> ADD TO CART
-              </button>
-              <button className="btn btn-accent btn-lg btn-full" onClick={() => {
-                addToCart(product, quantity, selectedVariant);
-                window.location.href = '/checkout';
-              }}>
-                <Zap size={18} /> BUY NOW
-              </button>
-            </div>
 
             {/* Trust Features */}
             <div className="product-trust">

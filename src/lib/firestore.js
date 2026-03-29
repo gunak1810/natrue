@@ -100,14 +100,24 @@ export async function getOrders(filters = {}) {
   if (filters.status) {
     constraints.push(where('status', '==', filters.status));
   }
-  constraints.push(orderBy('createdAt', 'desc'));
-  if (filters.limit) {
-    constraints.push(limit(filters.limit));
-  }
+  
+  // NOTE: If neither userId nor status are provided (Admin fetching all)
+  // we could orderBy. But combining equality clauses with orderBy requires a composite index.
+  // To bypass this for now, we will fetch and sort in JavaScript.
   
   q = query(q, ...constraints);
   const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+  let results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+  // Client-side sort to avoid composite index requirement
+  results.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+  
+  if (filters.limit) {
+    results = results.slice(0, filters.limit);
+  }
+  
+  return results;
 }
 
 export async function getOrderById(id) {
@@ -121,6 +131,7 @@ export async function createOrder(orderData) {
   const docRef = await addDoc(collection(db, 'orders'), {
     ...orderData,
     createdAt: new Date().toISOString(),
+    timestamp: Date.now(),
     updatedAt: new Date().toISOString()
   });
   return docRef.id;

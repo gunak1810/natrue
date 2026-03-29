@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
-import { createOrder } from '@/lib/firestore';
+import { createOrder, updateUserProfile } from '@/lib/firestore';
 import { CheckCircle, CreditCard, Banknote, ArrowRight } from 'lucide-react';
 
 import Link from 'next/link';
@@ -11,23 +11,59 @@ import './checkout.css';
 
 export default function CheckoutPage() {
   const { items, subtotal, shippingCost, total, clearCart } = useCart();
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const [step, setStep] = useState(1);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [submitting, setSubmitting] = useState(false);
+  
+  // OTP Verification state
+  const [showOtp, setShowOtp] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [phoneVerified, setPhoneVerified] = useState(false);
 
   const [form, setForm] = useState({
-    name: user?.displayName || '', email: user?.email || '',
-    phone: '', address: '', city: '', state: '', pincode: '', notes: ''
+    name: userProfile?.name || user?.displayName || '', 
+    email: userProfile?.email || user?.email || '',
+    phone: userProfile?.phone || '', 
+    address: userProfile?.addresses?.[0]?.address || '', 
+    city: userProfile?.addresses?.[0]?.city || '', 
+    state: userProfile?.addresses?.[0]?.state || '', 
+    pincode: userProfile?.addresses?.[0]?.pincode || '', 
+    notes: ''
   });
 
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (step === 1) { setStep(2); return; }
+    if (step === 1) { 
+      // OTP Verification Logic
+      if (!phoneVerified) {
+        if (!showOtp) {
+          if (form.phone.length < 10) {
+             alert('Please enter a valid 10-digit mobile number.');
+             return;
+          }
+          setShowOtp(true);
+          alert(`Test OTP sent to ${form.phone}. Please enter 1234 to verify.`);
+          return;
+        } else {
+          if (otp === '1234') {
+             setPhoneVerified(true);
+             setShowOtp(false);
+             setStep(2);
+          } else {
+             alert('Invalid OTP! Please enter 1234 for testing.');
+             return;
+          }
+        }
+      } else {
+        setStep(2); 
+      }
+      return; 
+    }
     
     try {
       setSubmitting(true);
@@ -43,6 +79,24 @@ export default function CheckoutPage() {
         paymentMethod, status: 'pending'
       };
       const id = await createOrder(orderData);
+      
+      // Auto-save address to user profile if logged in
+      if (user && userProfile) {
+        const currentAddresses = userProfile.addresses || [];
+        const isNewAddress = !currentAddresses.some(a => 
+          a.address === form.address && a.pincode === form.pincode
+        );
+        if (isNewAddress) {
+          await updateUserProfile(user.uid, {
+            phone: form.phone,
+            addresses: [...currentAddresses, {
+              name: form.name, phone: form.phone, address: form.address, 
+              city: form.city, state: form.state, pincode: form.pincode
+            }]
+          });
+        }
+      }
+
       setOrderId(id);
       setOrderPlaced(true);
       clearCart();
@@ -150,7 +204,24 @@ export default function CheckoutPage() {
 
                   <div className="checkout-footer-nav">
                     <Link href="/cart" style={{ color: '#2ba79b', fontSize: '13px', textDecoration: 'none' }}>Back to cart</Link>
-                    <button type="submit" className="btn-checkout-primary">Continue to payment</button>
+                    
+                    {showOtp ? (
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <input 
+                          type="text" 
+                          value={otp} 
+                          onChange={(e) => setOtp(e.target.value)} 
+                          placeholder="Enter 1234 OTP"
+                          style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px', width: '140px' }}
+                          required
+                        />
+                        <button type="submit" className="btn-checkout-primary">Verify & Continue</button>
+                      </div>
+                    ) : (
+                      <button type="submit" className="btn-checkout-primary">
+                        {phoneVerified ? 'Continue to payment' : 'Verify Mobile Number'}
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
