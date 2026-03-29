@@ -1,14 +1,19 @@
 .product-card {
-  background: var(--color-bg);
-  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
   overflow: hidden;
   transition: all var(--transition-base);
   position: relative;
+  box-shadow: var(--glass-shadow);
 }
 
 .product-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-6px);
+  border: var(--glass-border-heavy);
 }
 
 .product-card-image {
@@ -71,20 +76,24 @@
 .quick-add-btn {
   width: 100%;
   padding: 12px;
-  background: white;
-  color: var(--color-accent);
-  border: 2px solid var(--color-accent);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  color: var(--color-primary-dark);
+  border: 1.5px solid var(--color-primary);
   border-radius: var(--radius-full);
   font-weight: 700;
   font-size: var(--font-size-xs);
   letter-spacing: 1px;
   transition: all var(--transition-fast);
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
 }
 
 .quick-add-btn:hover {
-  background: var(--color-accent);
+  background: var(--color-primary);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .product-card-info {
@@ -122,7 +131,7 @@
 
 @media (max-width: 768px) {
   .product-card-info {
-    padding: 10px 8px;
+    padding: 12px 10px;
   }
   
   .product-card-title {
@@ -132,5 +141,20 @@
   
   .product-img-placeholder {
     font-size: 40px;
+  }
+
+  .product-card-overlay {
+    opacity: 1;
+    transform: none;
+    padding: 8px;
+    background: linear-gradient(to top, rgba(255,255,255,0.95), transparent);
+  }
+
+  .quick-add-btn {
+    padding: 10px;
+    font-size: 11px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
   }
 }

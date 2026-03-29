@@ -13,6 +13,8 @@
   padding: 40px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .hero-slide-content {

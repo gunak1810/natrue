@@ -1,43 +1,53 @@
 
 
 :root {
-  /* ===== Baby Pink Theme Color Palette ===== */
-  --color-primary: #FFB6C1;
-  --color-primary-dark: #FF9AA4;
-  --color-primary-light: #FFD1D9;
-  --color-primary-bg: #FFF0F2;
+  /* ===== Modern Glass Theme Color Palette ===== */
+  --color-primary: #6366f1; /* Vibrant Indigo */
+  --color-primary-dark: #4f46e5;
+  --color-primary-light: #e0e7ff;
+  --color-primary-bg: rgba(99, 102, 241, 0.08);
   
-  --color-accent: #FF69B4;
-  --color-accent-dark: #FF1493;
-  --color-accent-light: #FFB6C1;
+  --color-accent: #ec4899; /* Vibrant Pink */
+  --color-accent-dark: #db2777;
+  --color-accent-light: #fce7f3;
   
-  --color-bg: #FFFFFF;
-  --color-bg-section: #FDF2F4;
-  --color-bg-light: #FEF7F8;
+  --color-bg: #f8fafc; /* Cool very light off-white base */
+  --color-bg-section: rgba(255, 255, 255, 0.5); /* Translucent for glass layering */
+  --color-bg-light: rgba(255, 255, 255, 0.8);
   
-  --color-text: #333333;
-  --color-text-light: #666666;
-  --color-text-muted: #999999;
+  --color-text: #1e293b; /* slate-800 */
+  --color-text-light: #475569; /* slate-600 */
+  --color-text-muted: #94a3b8; /* slate-400 */
   --color-text-white: #FFFFFF;
   
-  --color-border: #E8E8E8;
-  --color-border-light: #F0F0F0;
+  --color-border: rgba(255, 255, 255, 0.6);
+  --color-border-light: rgba(255, 255, 255, 0.3);
   
-  --color-star: #FFB800;
-  --color-success: #4CAF50;
-  --color-warning: #FF9800;
-  --color-error: #F44336;
+  --color-star: #fbbf24;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
   
   --color-whatsapp: #25D366;
+
+  /* ===== Glassmorphism Tokens ===== */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+  --glass-border-heavy: 1px solid rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  --glass-shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.08);
+  --glass-blur: blur(12px);
+  --glass-blur-heavy: blur(20px);
   
-  /* ===== Shadows ===== */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
-  --shadow-xl: 0 15px 50px rgba(0,0,0,0.15);
+  /* ===== Shadows (Softer, deeper) ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   
   /* ===== Typography ===== */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -53,15 +63,15 @@
   --announcement-height: 36px;
   
   /* ===== Transitions ===== */
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 0.15s ease-out;
+  --transition-base: 0.3s ease-out;
+  --transition-slow: 0.5s ease-out;
   
   /* ===== Border Radius ===== */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 }
 
@@ -85,6 +95,25 @@ body {
   background: var(--color-bg);
   line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Base Mesh Gradient Background for Glass effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+    radial-gradient(at 15% 80%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+    radial-gradient(at 85% 90%, rgba(20, 184, 166, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.8) 0px, transparent 100%);
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 a {
@@ -250,11 +279,17 @@ input, textarea, select {
 
 /* ===== SECTION SPACING ===== */
 .section {
-  padding: 60px 0;
+  padding: 80px 0;
+  position: relative;
 }
 
 .section-alt {
-  background: var(--color-bg-section);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: var(--glass-border);
+  border-bottom: var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
 /* ===== BADGE ===== */

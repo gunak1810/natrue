@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { Search, User, ShoppingCart, Menu, X, ChevronDown, Heart } from 'lucide-react';
-import { getCategories } from '@/lib/firestore';
+import { getCategories, searchProducts } from '@/lib/firestore';
 import dynamic from 'next/dynamic';
+
 
 const CartDrawer = dynamic(() => import('../CartDrawer/CartDrawer'), { ssr: false });
 const WhatsAppButton = dynamic(() => import('../WhatsAppButton/WhatsAppButton'), { ssr: false });
@@ -29,7 +30,10 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [liveResults, setLiveResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const searchRef = useRef(null);
+
 
 
 
@@ -59,14 +63,42 @@ export default function Header() {
     }
   }, [searchOpen]);
 
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (searchQuery.trim().length >= 2) {
+        setIsSearching(true);
+        try {
+          const results = await searchProducts(searchQuery.trim());
+          setLiveResults(results.slice(0, 6)); // Show top 6 results
+        } catch (err) {
+          console.error('Live search error:', err);
+        } finally {
+          setIsSearching(false);
+        }
+      } else {
+        setLiveResults([]);
+      }
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const handleSearch = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (searchQuery.trim()) {
       window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
       setSearchOpen(false);
       setSearchQuery('');
+      setLiveResults([]);
     }
   };
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setSearchQuery('');
+    setLiveResults([]);
+  };
+
 
 
   return (
@@ -159,15 +191,49 @@ export default function Header() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
               />
-              <button type="button" className="search-close" onClick={() => setSearchOpen(false)}>
+              <button type="button" className="search-close" onClick={closeSearch}>
                 <X size={24} />
               </button>
             </form>
+
+            {/* Live Results */}
+            {searchQuery.trim().length >= 2 && (
+              <div className="search-results-overlay">
+                {isSearching ? (
+                  <div className="search-status">Searching...</div>
+                ) : liveResults.length > 0 ? (
+                  <div className="search-results-list">
+                    {liveResults.map(product => (
+                      <Link 
+                        key={product.id} 
+                        href={`/products/${product.slug}`}
+                        className="search-result-item"
+                        onClick={closeSearch}
+                      >
+                        <div className="search-result-img">
+                          {product.images?.[0] ? <img src={product.images[0]} alt={product.name} /> : '🎁'}
+                        </div>
+                        <div className="search-result-info">
+                          <span className="search-result-name">{product.name}</span>
+                          <span className="search-result-price">₹{product.salePrice || product.price}</span>
+                        </div>
+                      </Link>
+                    ))}
+                    <button className="view-all-results" onClick={handleSearch}>
+                      View all {liveResults.length >= 6 ? 'results' : ''} for "{searchQuery}"
+                    </button>
+                  </div>
+                ) : (
+                  <div className="search-status">No products found matching "{searchQuery}"</div>
+                )}
+              </div>
+            )}
+
             <div className="popular-searches">
               <h4>Popular Searches:</h4>
               <div className="search-tags">
                 {['Stationery', 'Return Gifts', 'LED Lamps', 'Keychains', 'DIY Kits'].map(tag => (
-                  <Link key={tag} href={`/search?q=${encodeURIComponent(tag)}`} className="search-tag" onClick={() => setSearchOpen(false)}>
+                  <Link key={tag} href={`/search?q=${encodeURIComponent(tag)}`} className="search-tag" onClick={closeSearch}>
                     {tag}
                   </Link>
                 ))}
@@ -175,6 +241,7 @@ export default function Header() {
             </div>
           </div>
         </div>
+
       )}
 
       {/* Mobile Menu */}

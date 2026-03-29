@@ -1,8 +1,9 @@
 /* ===== CATEGORY BAR ===== */
 .category-bar {
   padding: 20px 0;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border-light);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
 }
 
 .category-scroll {
@@ -58,18 +59,20 @@
 }
 
 .category-card {
-  background: white;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
   border-radius: var(--radius-xl);
   padding: 30px 20px;
   text-align: center;
   transition: all var(--transition-base);
-  border: 2px solid var(--color-border-light);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
 .category-card:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  border: var(--glass-border-heavy);
+  transform: translateY(-6px);
+  box-shadow: var(--glass-shadow-hover);
 }
 
 .category-card-icon {
@@ -98,17 +101,19 @@
 }
 
 .testimonial-card {
-  background: white;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
   border-radius: var(--radius-lg);
   padding: 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--glass-shadow);
   transition: all var(--transition-base);
-  border: 1px solid var(--color-border-light);
+  border: var(--glass-border);
 }
 
 .testimonial-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-4px);
+  border: var(--glass-border-heavy);
 }
 
 .testimonial-stars {

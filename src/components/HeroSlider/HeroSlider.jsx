@@ -13,8 +13,8 @@ const defaultSlides = [
     title: 'FREE Customization',
     subtitle: 'NAME PRINT',
     description: 'On all eligible products',
-    bg: 'linear-gradient(135deg, #1a2a3a 0%, #0d1b2a 100%)',
-    accent: '#E91E63',
+    bg: 'linear-gradient(135deg, rgba(99, 102, 241, 0.7) 0%, rgba(79, 70, 229, 0.8) 100%)',
+    accent: '#ec4899',
     emoji: '🎁'
   },
   {
@@ -22,8 +22,8 @@ const defaultSlides = [
     title: 'Return Gifts',
     subtitle: 'Starting ₹20',
     description: '1200+ options • Free Gift Wrapping',
-    bg: 'linear-gradient(135deg, #2B9A8C 0%, #1a7a6c 100%)',
-    accent: '#FFB800',
+    bg: 'linear-gradient(135deg, rgba(236, 72, 153, 0.7) 0%, rgba(219, 39, 119, 0.8) 100%)',
+    accent: '#fbbf24',
     emoji: '🎉'
   },
   {
@@ -31,8 +31,9 @@ const defaultSlides = [
     title: 'New Arrivals',
     subtitle: 'Trendy Collection',
     description: 'Discover the latest gifts & stationery',
-    bg: 'linear-gradient(135deg, #E91E63 0%, #C2185B 100%)',
-    accent: '#FFFFFF',
+    bg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.7) 0%, rgba(147, 51, 234, 0.8) 100%)',
+    accent: '#ffffff',
+    textDark: true, /* Using white text universally now though */
     emoji: '✨'
   },
   {
@@ -40,8 +41,8 @@ const defaultSlides = [
     title: 'Corporate Gifts',
     subtitle: 'Personalized',
     description: 'Pen, Keychain & Diary combos with your logo',
-    bg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-    accent: '#3DB8A8',
+    bg: 'linear-gradient(135deg, rgba(20, 184, 166, 0.7) 0%, rgba(13, 148, 136, 0.8) 100%)',
+    accent: '#f8fafc',
     emoji: '🏢'
   }
 ];
@@ -61,7 +62,7 @@ export default function HeroSlider({ banners }) {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="hero-slide" style={{ background: slide.bg || `linear-gradient(135deg, #2B9A8C, #1a7a6c)` }}>
+            <div className="hero-slide" style={{ background: slide.bg || `var(--glass-bg-hover)` }}>
               <div className="hero-slide-content">
                 <div className="hero-text">
                   {slide.title && (
