@@ -509,7 +509,7 @@ input, textarea, select {
   display: none !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   :root {
     --header-height: 60px;
   }

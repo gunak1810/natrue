@@ -7,6 +7,7 @@ import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { getProductBySlug, getProducts, getReviews } from '@/lib/firestore';
 import { Star, Minus, Plus, ShoppingCart, Zap, Truck, RefreshCw, Shield, ChevronDown } from 'lucide-react';
+import Image from 'next/image';
 import './product.css';
 
 export default function ProductPage() {
@@ -88,7 +89,8 @@ export default function ProductPage() {
     ));
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    const rect = e?.currentTarget?.getBoundingClientRect() || null;
     const productToAdd = {
       ...product,
       price: currentPrice,
@@ -103,7 +105,7 @@ export default function ProductPage() {
         }).join(' | ')
       : null;
 
-    addToCart(productToAdd, quantity, variantString);
+    addToCart(productToAdd, quantity, variantString, rect);
   };
 
   return (
@@ -120,10 +122,31 @@ export default function ProductPage() {
         <div className="product-detail">
           {/* Image Gallery */}
           <div className="product-gallery">
-            <div className="product-main-image">
-              <div className="product-img-large">🎁</div>
-              {discount > 0 && <span className="product-badge badge-sale">-{discount}%</span>}
+            <div className="product-main-image" style={{ position: 'relative', width: '100%', aspectRatio: '1/1', background: '#f5f5f5', borderRadius: '16px', overflow: 'hidden' }}>
+              {product.images?.[0] ? (
+                <Image 
+                  src={product.images[0]} 
+                  alt={product.name} 
+                  fill 
+                  style={{ objectFit: 'cover' }} 
+                  priority
+                />
+              ) : (
+                <div className="product-img-large" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', fontSize: '4rem' }}>🎁</div>
+              )}
+              {discount > 0 && <span className="product-badge badge-sale" style={{ position: 'absolute', top: 15, left: 15, zIndex: 10 }}>-{discount}%</span>}
             </div>
+            
+            {/* Optional Thumbnail Gallery */}
+            {product.images && product.images.length > 1 && (
+              <div className="product-thumbnails" style={{ display: 'flex', gap: '10px', marginTop: '15px', overflowX: 'auto', paddingBottom: '5px' }}>
+                {product.images.map((img, i) => (
+                  <div key={i} style={{ width: '80px', height: '80px', flexShrink: 0, position: 'relative', borderRadius: '8px', overflow: 'hidden', border: i === 0 ? '2px solid var(--color-primary)' : '1px solid var(--color-border-light)' }}>
+                     <Image src={img} alt={`${product.name} thumbnail ${i}`} fill style={{ objectFit: 'cover' }} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -190,8 +213,8 @@ export default function ProductPage() {
                 <button className="btn btn-outline-accent btn-lg btn-full" onClick={handleAddToCart}>
                   <ShoppingCart size={18} /> ADD TO CART
                 </button>
-                <button className="btn btn-accent btn-lg btn-full" onClick={() => {
-                  handleAddToCart();
+                <button className="btn btn-accent btn-lg btn-full" onClick={(e) => {
+                  handleAddToCart(e);
                   window.location.href = '/checkout';
                 }}>
                   <Zap size={18} /> BUY NOW

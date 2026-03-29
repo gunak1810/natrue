@@ -108,7 +108,8 @@ export default function ProductCard({ product }) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              addToCart(product);
+              const rect = e.currentTarget.getBoundingClientRect();
+              addToCart(product, 1, null, rect);
             }}
           >
             ADD TO CART

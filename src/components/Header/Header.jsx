@@ -24,7 +24,7 @@ const defaultNav = [
 
 export default function Header() {
   const { user, isAdmin } = useAuth();
-  const { totalItems, isOpen, setIsOpen } = useCart();
+  const { totalItems, isOpen, setIsOpen, isGoalScored, addedCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -166,12 +166,17 @@ export default function Header() {
                 <span className="action-label">Admin</span>
               </Link>
             )}
-            <button className="header-action-btn cart-btn" onClick={() => setIsOpen(true)} aria-label="Cart">
+            <button className={`header-action-btn cart-btn ${isGoalScored ? 'goal-anim' : ''}`} onClick={() => setIsOpen(true)} aria-label="Cart">
               <div className="cart-icon-wrapper">
-                <ShoppingCart size={20} />
-                {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+                {isGoalScored ? (
+                  <span style={{ fontSize: '22px', display: 'flex', marginTop: '-2px' }}>🥅</span>
+                ) : (
+                  <ShoppingCart size={20} />
+                )}
+                {!isGoalScored && totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+                {isGoalScored && <span className="goal-points-badge">+{addedCount}</span>}
               </div>
-              <span className="action-label">Cart</span>
+              <span className="action-label">{isGoalScored ? 'GOAL!' : 'Cart'}</span>
             </button>
           </div>
         </div>
@@ -254,12 +259,7 @@ export default function Header() {
         </div>
         <nav className="mobile-nav">
           <Link href="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-          {categories.map((cat) => (
-            <Link key={cat.id} href={`/collections/${cat.slug}`} className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-              {cat.name}
-            </Link>
-          ))}
-          <Link href="/collections/all" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>View All</Link>
+          <Link href="/collections/all" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Shop All Products</Link>
           <hr />
           <Link href={user ? '/account' : '/auth/login'} className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
             {user ? 'My Account' : 'Login / Register'}
@@ -277,14 +277,19 @@ export default function Header() {
       <CartDrawer />
 
       {/* Floating Mobile Cart (visible only on mobile with items) */}
-      {totalItems > 0 && (
+      {(totalItems > 0 || isGoalScored) && (
         <button 
-          className="floating-mobile-cart show-mobile" 
+          className={`floating-mobile-cart show-mobile ${isGoalScored ? 'goal-anim-mobile' : ''}`} 
           onClick={() => setIsOpen(true)}
           aria-label="View Cart"
         >
-          <ShoppingCart size={24} color="white" />
-          <span className="floating-cart-count">{totalItems}</span>
+          {isGoalScored ? (
+             <span style={{ fontSize: '30px', display: 'flex' }}>🥅</span>
+          ) : (
+             <ShoppingCart size={24} color="white" />
+          )}
+          {!isGoalScored && totalItems > 0 && <span className="floating-cart-count">{totalItems}</span>}
+          {isGoalScored && <span className="floating-cart-count goal-points-badge-mobile">+{addedCount}</span>}
         </button>
       )}
 

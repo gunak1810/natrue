@@ -239,6 +239,44 @@
   border: 1.5px solid white;
 }
 
+.goal-points-badge {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  background: var(--color-success);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: bold;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+  z-index: 10;
+}
+
+.goal-anim {
+  animation: shakeAndScale 0.6s ease;
+  color: var(--color-success) !important;
+}
+
+.goal-anim .action-label {
+  color: var(--color-success) !important;
+  font-weight: 800;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shakeAndScale {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.3) rotate(-10deg); }
+  50% { transform: scale(1.3) rotate(10deg); }
+  75% { transform: scale(1.3) rotate(-10deg); }
+  100% { transform: scale(1); }
+}
+
 .mobile-menu-toggle {
   width: 40px;
   height: 40px;
@@ -500,25 +538,37 @@
   }
 }
 
-@media (max-width: 768px) {
-  .header-nav {
+@media (max-width: 1024px) {
+  .header-nav,
+  .header-nav.hide-mobile {
     display: none !important;
   }
   
   .header-container {
     gap: 10px;
+    justify-content: space-between;
   }
   
-  .logo-tagline {
-    display: none;
+  /* Show the logo wrapper, but hide the graphic icon and tagline */
+  .header-logo {
+    display: flex !important;
+  }
+  
+  .logo-icon, .logo-tagline {
+    display: none !important;
+  }
+  
+  .logo-name {
+    font-size: 1.2rem;
   }
 
   /* Hide non-critical actions on mobile to save space */
-  .account-btn, .admin-btn {
+  .admin-btn, .header-action-btn[aria-label="Search"] {
     display: none !important;
   }
 
-  .admin-btn {
+  /* Force display account and cart on mobile */
+  .account-btn, .cart-btn {
     display: flex !important;
   }
 
@@ -556,5 +606,19 @@
     justify-content: center;
     border: 2px solid white;
     box-shadow: var(--shadow-sm);
+  }
+
+  .goal-points-badge-mobile {
+    background: var(--color-success);
+    width: auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  .goal-anim-mobile {
+    animation: shakeAndScale 0.6s ease;
+    background: var(--color-success);
+    border-color: white;
   }
 }
