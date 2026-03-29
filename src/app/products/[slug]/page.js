@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { getProductBySlug, getProducts, getReviews } from '@/lib/firestore';
-import { Star, Minus, Plus, ShoppingCart, Zap, Truck, RefreshCw, Shield, ChevronDown } from 'lucide-react';
+import { Star, Minus, Plus, ShoppingCart, Zap, Truck, RefreshCw, Shield, ChevronDown, Type, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import './product.css';
 
@@ -20,6 +20,9 @@ export default function ProductPage() {
   const [selectedVariants, setSelectedVariants] = useState({});
   const [activeTab, setActiveTab] = useState('description');
   const [loading, setLoading] = useState(true);
+  const [customText, setCustomText] = useState('');
+  const [customImageFile, setCustomImageFile] = useState(null);
+  const [customImagePreview, setCustomImagePreview] = useState(null);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -98,12 +101,22 @@ export default function ProductPage() {
     };
     // Flatten variant object to string (e.g. "Color: Pink / Size: 10x10")
     const variantKeys = Object.keys(selectedVariants);
-    const variantString = variantKeys.length > 0 
+    let variantParts = variantKeys.length > 0 
       ? variantKeys.map(k => {
           const v = selectedVariants[k];
           return typeof v === 'object' ? `${k}: ${v.name}` : `${k}: ${v}`;
-        }).join(' | ')
-      : null;
+        })
+      : [];
+    
+    // Append customization info to variant string
+    if (product.customText && customText.trim()) {
+      variantParts.push(`Text: "${customText.trim()}"`);
+    }
+    if (product.customImage && customImagePreview) {
+      variantParts.push(`Custom Image: Yes`);
+    }
+    
+    const variantString = variantParts.length > 0 ? variantParts.join(' | ') : null;
 
     addToCart(productToAdd, quantity, variantString, rect);
   };
@@ -197,6 +210,105 @@ export default function ProductPage() {
                   </div>
                 </div>
               ))}
+
+              {/* Customization: Text */}
+              {product.customText && (
+                <div className="product-variant-group">
+                  <label className="variant-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Type size={16} /> Add Your Custom Text:
+                  </label>
+                  <input 
+                    type="text" 
+                    value={customText}
+                    onChange={(e) => setCustomText(e.target.value)}
+                    placeholder="Enter personalized text (e.g. name, message)"
+                    maxLength={50}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      border: '2px solid var(--color-border)',
+                      borderRadius: 'var(--radius-md)',
+                      fontSize: 'var(--font-size-sm)',
+                      background: 'white',
+                      transition: 'border-color 0.2s'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = 'var(--color-primary)'}
+                    onBlur={(e) => e.target.style.borderColor = 'var(--color-border)'}
+                  />
+                  <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '4px', display: 'block' }}>
+                    {customText.length}/50 characters
+                  </span>
+                </div>
+              )}
+
+              {/* Customization: Image Upload */}
+              {product.customImage && (
+                <div className="product-variant-group">
+                  <label className="variant-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <ImageIcon size={16} /> Upload Your Image:
+                  </label>
+                  {customImagePreview ? (
+                    <div style={{ position: 'relative', display: 'inline-block' }}>
+                      <img 
+                        src={customImagePreview} 
+                        alt="Custom upload"
+                        style={{ 
+                          width: '120px', height: '120px', objectFit: 'cover', 
+                          borderRadius: '12px', border: '2px solid var(--color-primary)',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                        }}
+                      />
+                      <button 
+                        onClick={() => { setCustomImageFile(null); setCustomImagePreview(null); }}
+                        style={{
+                          position: 'absolute', top: '-8px', right: '-8px',
+                          width: '24px', height: '24px', borderRadius: '50%',
+                          background: 'var(--color-error)', color: 'white',
+                          border: '2px solid white', cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '12px', fontWeight: 'bold'
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <label style={{
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                      gap: '8px', padding: '24px', border: '2px dashed var(--color-border)',
+                      borderRadius: 'var(--radius-md)', cursor: 'pointer',
+                      background: 'var(--color-bg-section)', transition: 'all 0.2s',
+                      minHeight: '100px'
+                    }}>
+                      <ImageIcon size={28} color="var(--color-text-muted)" />
+                      <span style={{ fontSize: '13px', color: 'var(--color-text-muted)', fontWeight: 500 }}>
+                        Tap to upload your image
+                      </span>
+                      <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                        JPG, PNG, WebP (max 5MB)
+                      </span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        hidden 
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            if (file.size > 5 * 1024 * 1024) { 
+                              alert('Image must be under 5MB'); 
+                              return; 
+                            }
+                            setCustomImageFile(file);
+                            const reader = new FileReader();
+                            reader.onload = (ev) => setCustomImagePreview(ev.target.result);
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                    </label>
+                  )}
+                </div>
+              )}
 
               {/* Quantity */}
               <div className="product-quantity">

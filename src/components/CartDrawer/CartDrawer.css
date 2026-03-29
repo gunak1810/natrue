@@ -128,6 +128,7 @@
 .cart-item-info {
   flex: 1;
   min-width: 0;
+  padding-right: 30px; /* Space for trash icon */
 }
 
 .cart-item-name {

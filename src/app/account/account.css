@@ -156,14 +156,115 @@
 .text-primary { color: var(--color-primary); }
 
 @media (max-width: 768px) {
-  .account-container { grid-template-columns: 1fr; gap: 30px; }
-  .account-sidebar { position: static; }
-  .info-grid { grid-template-columns: 1fr; }
-  
-  .account-section { padding: 20px; }
+  .account-page {
+    padding: 16px 0 40px;
+  }
+
+  .account-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .account-sidebar {
+    position: static;
+    border-radius: var(--radius-lg);
+  }
+
+  .account-user-info {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .user-avatar {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .account-user-info h3 {
+    font-size: var(--font-size-sm);
+  }
+
+  .account-nav {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .account-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .account-nav-item {
+    padding: 12px 16px;
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    font-size: var(--font-size-xs);
+    min-width: fit-content;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .account-nav-item.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--color-primary);
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .info-item {
+    padding: 12px;
+    gap: 4px;
+  }
+
+  .info-label {
+    font-size: 10px;
+  }
+
+  .info-value {
+    font-size: var(--font-size-sm);
+  }
+
+  .account-section {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 16px;
+  }
+
+  .account-section h3 {
+    font-size: var(--font-size-base);
+    margin-bottom: 14px;
+  }
+
+  .account-main .page-title {
+    margin-bottom: 16px;
+    font-size: var(--font-size-lg);
+  }
+
   .account-table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .account-table th {
+    padding: 10px 12px;
+    font-size: var(--font-size-xs);
+  }
+
+  .account-table td {
+    padding: 12px;
+    font-size: var(--font-size-xs);
+  }
+
+  .account-empty {
+    padding: 24px;
   }
 }

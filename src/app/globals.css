@@ -260,20 +260,21 @@ input, textarea, select {
 @media (max-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
   }
 }
 
 @media (max-width: 768px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 }
 
@@ -511,7 +512,8 @@ input, textarea, select {
 
 @media (max-width: 1024px) {
   :root {
-    --header-height: 60px;
+    --header-height: 56px;
+    --announcement-height: 32px;
   }
   
   .hide-mobile {
@@ -523,16 +525,44 @@ input, textarea, select {
   }
   
   .section {
-    padding: 40px 0;
+    padding: 36px 0;
   }
   
   .section-title {
-    font-size: var(--font-size-2xl);
-    margin-bottom: 24px;
+    font-size: var(--font-size-xl);
+    margin-bottom: 20px;
   }
   
   .container {
-    padding: 0 16px;
+    padding: 0 14px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: var(--font-size-xs);
+  }
+  
+  .btn-lg {
+    padding: 13px 24px;
+    font-size: var(--font-size-sm);
+  }
+  
+  .breadcrumbs {
+    padding: 10px 0;
+    font-size: var(--font-size-xs);
+    gap: 5px;
+  }
+  
+  .section-action {
+    margin-top: 24px;
+  }
+  
+  .empty-state {
+    padding: 50px 16px;
+  }
+  
+  .empty-state h3 {
+    font-size: var(--font-size-base);
   }
 }
 

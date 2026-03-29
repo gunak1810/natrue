@@ -20,7 +20,7 @@
 }
 
 .announcement-marquee span {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   font-weight: 500;
   padding: 0 30px;
 }
@@ -198,11 +198,11 @@
 }
 
 .action-label {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   text-transform: uppercase;
   color: #555;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
   margin-top: 1px;
 }
 
@@ -570,6 +570,32 @@
   /* Force display account and cart on mobile */
   .account-btn, .cart-btn {
     display: flex !important;
+  }
+
+  .header-action-btn {
+    min-width: 48px;
+    height: 48px;
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .action-label {
+    font-size: 7px;
+    letter-spacing: 0.3px;
+  }
+
+  .mobile-menu-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo-name {
+    font-size: 1.1rem;
+  }
+
+  .announcement-marquee span {
+    font-size: 11px;
+    padding: 0 16px;
   }
 
   /* Floating mobile cart styles */

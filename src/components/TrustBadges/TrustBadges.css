@@ -51,12 +51,37 @@
 }
 
 @media (max-width: 768px) {
+  .trust-badges {
+    padding: 28px 0;
+  }
+
   .trust-badges-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 10px;
   }
   
   .trust-badge {
-    padding: 16px;
+    padding: 12px 16px;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .trust-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .trust-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .trust-text h4 {
+    font-size: var(--font-size-sm);
+    margin-bottom: 2px;
+  }
+
+  .trust-text p {
+    font-size: var(--font-size-xs);
   }
 }

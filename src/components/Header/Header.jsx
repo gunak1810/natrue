@@ -276,22 +276,7 @@ export default function Header() {
       {/* Cart Drawer */}
       <CartDrawer />
 
-      {/* Floating Mobile Cart (visible only on mobile with items) */}
-      {(totalItems > 0 || isGoalScored) && (
-        <button 
-          className={`floating-mobile-cart show-mobile ${isGoalScored ? 'goal-anim-mobile' : ''}`} 
-          onClick={() => setIsOpen(true)}
-          aria-label="View Cart"
-        >
-          {isGoalScored ? (
-             <span style={{ fontSize: '30px', display: 'flex' }}>🥅</span>
-          ) : (
-             <ShoppingCart size={24} color="white" />
-          )}
-          {!isGoalScored && totalItems > 0 && <span className="floating-cart-count">{totalItems}</span>}
-          {isGoalScored && <span className="floating-cart-count goal-points-badge-mobile">+{addedCount}</span>}
-        </button>
-      )}
+
 
       {/* WhatsApp Button */}
       <WhatsAppButton />

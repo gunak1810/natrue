@@ -116,35 +116,60 @@
 
 @media (max-width: 768px) {
   .hero-slide {
-    min-height: 300px;
-    padding: 24px;
+    min-height: 220px;
+    padding: 20px 10px;
   }
   
   .hero-slide-content {
     flex-direction: column;
     text-align: center;
-    padding: 0 16px;
-    gap: 20px;
+    padding: 0 10px;
+    gap: 12px;
   }
   
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    margin-bottom: 6px;
   }
   
   .hero-badge {
-    font-size: var(--font-size-base);
-    padding: 8px 18px;
+    font-size: var(--font-size-sm);
+    padding: 6px 14px;
+    margin-bottom: 8px;
   }
   
   .hero-desc {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .hero-cta {
+    font-size: var(--font-size-xs) !important;
+    padding: 10px 20px !important;
+    letter-spacing: 1px;
   }
   
   .hero-emoji {
-    font-size: 80px;
+    font-size: 60px;
   }
   
   .hero-visual {
     display: none;
+  }
+
+  .hero-swiper .swiper-button-next,
+  .hero-swiper .swiper-button-prev {
+    display: none;
+  }
+
+  .hero-swiper .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+  }
+
+  .hero-swiper .swiper-pagination-bullet-active {
+    width: 20px;
   }
 }

@@ -18,7 +18,8 @@ export default function AdminProducts() {
   const [searchTerm, setSearchTerm] = useState('');
   const [form, setForm] = useState({
     name: '', slug: '', description: '', price: 0, salePrice: 0, 
-    category: '', stock: 0, featured: false, images: [], variants: []
+    category: '', stock: 0, featured: false, images: [], variants: [],
+    customText: false, customImage: false
   });
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -174,7 +175,7 @@ export default function AdminProducts() {
       }
       setShowForm(false);
       setEditingId(null);
-      setForm({ name: '', slug: '', description: '', price: 0, salePrice: 0, category: '', stock: 0, featured: false, images: [], variants: [] });
+      setForm({ name: '', slug: '', description: '', price: 0, salePrice: 0, category: '', stock: 0, featured: false, images: [], variants: [], customText: false, customImage: false });
       fetchData();
     } catch (err) {
       console.error('Error saving product:', err);
@@ -390,6 +391,22 @@ export default function AdminProducts() {
                   <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} />
                   Featured Product (Home Page)
                 </label>
+              </div>
+
+              {/* Customization Options */}
+              <div className="form-group" style={{ background: '#fefce8', padding: '15px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                <label className="form-label" style={{ margin: '0 0 10px 0', color: '#92400e' }}>🎨 Customer Customization Options</label>
+                <p style={{ fontSize: '12px', color: '#a16207', marginBottom: '12px' }}>Enable these to allow customers to personalize this product before adding to cart.</p>
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '8px 14px', borderRadius: '8px', background: form.customText ? '#dcfce7' : '#fff', border: form.customText ? '2px solid #22c55e' : '2px solid #e5e7eb', transition: 'all 0.2s' }}>
+                    <input type="checkbox" name="customText" checked={form.customText || false} onChange={handleChange} />
+                    <span style={{ fontSize: '14px', fontWeight: 600 }}>✏️ Add Custom Text</span>
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '8px 14px', borderRadius: '8px', background: form.customImage ? '#dcfce7' : '#fff', border: form.customImage ? '2px solid #22c55e' : '2px solid #e5e7eb', transition: 'all 0.2s' }}>
+                    <input type="checkbox" name="customImage" checked={form.customImage || false} onChange={handleChange} />
+                    <span style={{ fontSize: '14px', fontWeight: 600 }}>🖼️ Add Custom Image</span>
+                  </label>
+                </div>
               </div>
 
 
