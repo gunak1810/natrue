@@ -1,0 +1,76 @@
+.collection-page {
+  padding-bottom: 60px;
+}
+
+.collection-header {
+  background: var(--color-bg-section);
+  padding: 30px 0;
+  margin-bottom: 30px;
+}
+
+.collection-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-text);
+  margin-top: 8px;
+}
+
+.collection-desc {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  margin-top: 8px;
+}
+
+.filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filters-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.filters-right {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-select {
+  padding: 10px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  background: white;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.filter-select:focus {
+  border-color: var(--color-primary);
+}
+
+.collection-grid {
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .filters-right {
+    width: 100%;
+  }
+  
+  .filter-select {
+    flex: 1;
+  }
+}

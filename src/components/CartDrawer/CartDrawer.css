@@ -1,0 +1,231 @@
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 420px;
+  max-width: 100vw;
+  height: 100%;
+  background: white;
+  z-index: 1500;
+  transition: right var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+}
+
+.cart-drawer.open {
+  right: 0;
+}
+
+.cart-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-drawer-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.cart-drawer-close {
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.cart-drawer-close:hover {
+  color: var(--color-text);
+}
+
+/* Shipping Progress */
+.shipping-progress {
+  padding: 16px 20px;
+  background: var(--color-bg-section);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.shipping-progress p {
+  margin-bottom: 8px;
+}
+
+.shipping-free {
+  color: var(--color-success);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  transition: width var(--transition-base);
+}
+
+/* Cart Items */
+.cart-drawer-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-muted);
+}
+
+.cart-empty svg {
+  margin-bottom: 16px;
+}
+
+.cart-empty p {
+  margin-bottom: 20px;
+  font-size: var(--font-size-lg);
+}
+
+.cart-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cart-item-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border-radius: var(--radius-md);
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+  transition: color var(--transition-fast);
+}
+
+.cart-item-name:hover {
+  color: var(--color-primary);
+}
+
+.cart-item-variant {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.cart-item-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  width: fit-content;
+}
+
+.cart-item-qty button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  transition: all var(--transition-fast);
+}
+
+.cart-item-qty button:hover {
+  background: var(--color-bg-section);
+}
+
+.cart-item-qty span {
+  width: 36px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.cart-item-remove {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.cart-item-remove:hover {
+  color: var(--color-error);
+}
+
+/* Cart Footer */
+.cart-drawer-footer {
+  padding: 20px;
+  border-top: 2px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart-subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.cart-subtotal-price {
+  color: var(--color-accent);
+}
+
+.cart-shipping-note {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .cart-drawer {
+    width: 100%;
+    right: -100%;
+  }
+}

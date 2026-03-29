@@ -1,0 +1,220 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
+import { Search, User, ShoppingCart, Menu, X, ChevronDown, Heart } from 'lucide-react';
+import { getCategories } from '@/lib/firestore';
+import dynamic from 'next/dynamic';
+
+const CartDrawer = dynamic(() => import('../CartDrawer/CartDrawer'), { ssr: false });
+const WhatsAppButton = dynamic(() => import('../WhatsAppButton/WhatsAppButton'), { ssr: false });
+import './Header.css';
+
+
+
+
+
+const defaultNav = [
+  { name: 'Home', href: '/' },
+];
+
+
+export default function Header() {
+  const { user, isAdmin } = useAuth();
+  const { totalItems, isOpen, setIsOpen } = useCart();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [scrolled, setScrolled] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const searchRef = useRef(null);
+
+
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const data = await getCategories();
+        // Only show segments marked for header
+        setCategories(data.filter(cat => cat.showHeader !== false));
+      } catch (err) {
+        console.error('Error fetching header categories:', err);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (searchOpen && searchRef.current) {
+      searchRef.current.focus();
+    }
+  }, [searchOpen]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+      setSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
+
+
+  return (
+
+
+    <>
+      {/* Announcement Bar */}
+      <div className="announcement-bar">
+        <div className="announcement-marquee">
+          <span>🎉 FREE Shipping on orders above ₹500! &nbsp;&nbsp;|&nbsp;&nbsp; Free Name Customization on all eligible products ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🎉 FREE Shipping on orders above ₹500! &nbsp;&nbsp;|&nbsp;&nbsp; Free Name Customization on all eligible products ✨</span>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header className={`header ${scrolled ? 'header-scrolled' : ''}`}>
+        <div className="container header-container">
+          {/* Mobile Menu Toggle */}
+          <button className="mobile-menu-toggle show-mobile" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
+            <Menu size={24} />
+          </button>
+
+          {/* Logo */}
+          <Link href="/" className="header-logo">
+            <div className="logo-icon">
+              <span>🎨</span>
+            </div>
+            <div className="logo-text">
+              <span className="logo-name">CraftsZone</span>
+              <span className="logo-tagline">Since 2024</span>
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="header-nav hide-mobile">
+            {defaultNav.map(item => (
+              <div key={item.name} className="nav-item">
+                <Link href={item.href} className="nav-link">{item.name}</Link>
+              </div>
+            ))}
+            {categories.slice(0, 8).map((cat) => (
+              <div key={cat.id} className="nav-item">
+                <Link href={`/collections/${cat.slug}`} className="nav-link">
+                  {cat.name}
+                </Link>
+              </div>
+            ))}
+            <div className="nav-item">
+              <Link href="/collections/all" className="nav-link">View All</Link>
+            </div>
+          </nav>
+
+          {/* Header Actions */}
+          <div className="header-actions">
+            <button className="header-action-btn" onClick={() => setSearchOpen(true)} aria-label="Search">
+              <Search size={20} />
+              <span className="action-label">Search</span>
+            </button>
+            <Link href={user ? '/account' : '/auth/login'} className="header-action-btn account-btn" aria-label="Account">
+              <User size={20} />
+              <span className="action-label">{user ? 'Account' : 'Login'}</span>
+            </Link>
+            {isAdmin && (
+              <Link href="/admin" className="header-action-btn admin-btn" aria-label="Admin Panel">
+                <span style={{ fontSize: '20px' }}>⚙️</span>
+                <span className="action-label">Admin</span>
+              </Link>
+            )}
+            <button className="header-action-btn cart-btn" onClick={() => setIsOpen(true)} aria-label="Cart">
+              <div className="cart-icon-wrapper">
+                <ShoppingCart size={20} />
+                {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+              </div>
+              <span className="action-label">Cart</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Search Overlay */}
+      {searchOpen && (
+        <div className="search-overlay">
+          <div className="search-overlay-content">
+            <form onSubmit={handleSearch} className="search-form">
+              <Search size={20} className="search-icon" />
+              <input
+                ref={searchRef}
+                type="text"
+                placeholder="Search for products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              <button type="button" className="search-close" onClick={() => setSearchOpen(false)}>
+                <X size={24} />
+              </button>
+            </form>
+            <div className="popular-searches">
+              <h4>Popular Searches:</h4>
+              <div className="search-tags">
+                {['Stationery', 'Return Gifts', 'LED Lamps', 'Keychains', 'DIY Kits'].map(tag => (
+                  <Link key={tag} href={`/search?q=${encodeURIComponent(tag)}`} className="search-tag" onClick={() => setSearchOpen(false)}>
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-header">
+          <span className="logo-name">CraftsZone</span>
+          <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+            <X size={24} />
+          </button>
+        </div>
+        <nav className="mobile-nav">
+          <Link href="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          {categories.map((cat) => (
+            <Link key={cat.id} href={`/collections/${cat.slug}`} className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+              {cat.name}
+            </Link>
+          ))}
+          <Link href="/collections/all" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>View All</Link>
+          <hr />
+          <Link href={user ? '/account' : '/auth/login'} className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+            {user ? 'My Account' : 'Login / Register'}
+          </Link>
+          {isAdmin && (
+            <Link href="/admin" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+              ⚙️ Admin Panel
+            </Link>
+          )}
+        </nav>
+      </div>
+      {mobileMenuOpen && <div className="overlay active" onClick={() => setMobileMenuOpen(false)} />}
+
+      {/* Cart Drawer */}
+      <CartDrawer />
+
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
+
+      {/* Spacer */}
+      <div style={{ height: `calc(var(--header-height) + var(--announcement-height))` }} />
+    </>
+  );
+}
+
