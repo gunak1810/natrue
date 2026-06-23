@@ -10,28 +10,30 @@ import './HeroSlider.css';
 const defaultSlides = [
   {
     id: 1,
-    title: 'Certified Organic',
-    subtitle: 'FARM TO TABLE',
-    description: 'Pure, natural, and chemical-free ingredients for your kitchen.',
-    bg: '#1a3c2a',
-    accent: '#b8860b'
+    title: 'Next Generation',
+    subtitle: 'CRAFTSZONE PRO',
+    description: 'Experience the cutting-edge of shopping with our new minimalist platform.',
+    bg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+    textDark: true,
+    accent: '#4f46e5'
   },
   {
     id: 2,
-    title: 'Pure Oils & Honey',
-    subtitle: "NATURE'S GOLD",
-    description: 'Cold-pressed oils and raw, unprocessed honey from sustainable farms.',
-    bg: '#faf9f6',
+    title: 'Sleek & Fast',
+    subtitle: 'MODERN DESIGN',
+    description: 'Lightning fast performance meets elegant minimalist design.',
+    bg: '#ffffff',
     textDark: true,
-    accent: '#946b08'
+    accent: '#0f172a'
   },
   {
     id: 3,
-    title: 'New Harvest',
-    subtitle: 'SEASONAL FRESH',
-    description: 'Freshly sourced millets, ancient grains, and powerful superfoods.',
-    bg: '#0f2419',
-    accent: '#b8860b'
+    title: 'Smart Features',
+    subtitle: 'INTELLIGENT UI',
+    description: 'Enhanced with fluid animations and intuitive glassmorphism.',
+    bg: 'linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%)',
+    textDark: true,
+    accent: '#4f46e5'
   }
 ];
 

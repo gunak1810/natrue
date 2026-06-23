@@ -1,55 +1,55 @@
 /* ===== Google Fonts Import ===== */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* ===== Natrue.in Premium Organic Palette ===== */
-  --color-primary: #1a3c2a;           /* Deep Botanical Green */
-  --color-primary-dark: #0f2419;       /* Night Forest */
-  --color-primary-light: #e8f0eb;      /* Whisper Sage */
-  --color-primary-bg: rgba(26, 60, 42, 0.04);
+  /* ===== Clean Minimalist Light Palette ===== */
+  --color-primary: #0f172a;           /* Deep Slate / Black */
+  --color-primary-dark: #000000;       /* Pure Black */
+  --color-primary-light: #f8fafc;      /* Ultra Light Slate */
+  --color-primary-bg: rgba(15, 23, 42, 0.03);
   
-  --color-accent: #b8860b;             /* Rich Gold / Dark Goldenrod */
-  --color-accent-dark: #946b08;         /* Antique Gold */
-  --color-accent-light: #fdf6e3;        /* Champagne Cream */
+  --color-accent: #4f46e5;             /* Vibrant Tech Indigo */
+  --color-accent-dark: #3730a3;         /* Deep Indigo */
+  --color-accent-light: #e0e7ff;        /* Soft Indigo bg */
   
-  --color-bg: #faf9f6;                 /* Warm Ivory */
-  --color-bg-section: rgba(250, 249, 246, 0.7);
-  --color-bg-light: rgba(250, 249, 246, 0.9);
+  --color-bg: #ffffff;                 /* Pure White */
+  --color-bg-section: #f8fafc;         /* Very Light Gray for section contrast */
+  --color-bg-light: #f1f5f9;           /* Secondary Gray */
   
-  --color-text: #1a1a1a;               /* Near Black */
-  --color-text-light: #4a4a4a;          /* Charcoal */
-  --color-text-muted: #8a8a8a;          /* Warm Grey */
-  --color-text-white: #FFFFFF;
+  --color-text: #0f172a;               /* High Contrast Slate */
+  --color-text-light: #334155;          /* Medium Slate */
+  --color-text-muted: #64748b;          /* Soft Gray */
+  --color-text-white: #ffffff;
   
-  --color-border: rgba(26, 60, 42, 0.08);
-  --color-border-light: rgba(26, 60, 42, 0.04);
+  --color-border: #e2e8f0;             /* Crisp Light Border */
+  --color-border-light: #f1f5f9;
   
-  --color-star: #b8860b;
-  --color-success: #2d6a4f;
-  --color-warning: #b8860b;
-  --color-error: #8b2500;
+  --color-star: #eab308;               /* Crisp Yellow */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
   
   --color-whatsapp: #25D366;
 
-  /* ===== Refined Glass Tokens ===== */
-  --glass-bg: rgba(250, 249, 246, 0.8);
-  --glass-bg-hover: rgba(250, 249, 246, 0.95);
-  --glass-border: 1px solid rgba(26, 60, 42, 0.06);
-  --glass-border-heavy: 1px solid rgba(26, 60, 42, 0.1);
-  --glass-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.03);
-  --glass-shadow-hover: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
-  --glass-blur: blur(16px);
-  --glass-blur-heavy: blur(24px);
+  /* ===== Modern Glass & Effects Tokens ===== */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+  --glass-border-heavy: 1px solid rgba(15, 23, 42, 0.05);
+  --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04);
+  --glass-shadow-hover: 0 12px 48px 0 rgba(15, 23, 42, 0.08);
+  --glass-blur: blur(20px);
+  --glass-blur-heavy: blur(40px);
   
-  /* ===== Shadows ===== */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.06);
-  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.08);
+  /* ===== Refined Soft Shadows ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -1px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -2px rgba(15, 23, 42, 0.025);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.05), 0 10px 10px -5px rgba(15, 23, 42, 0.02);
   
   /* ===== Typography ===== */
-  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
-  --font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -58,23 +58,24 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 2rem;
   --font-size-4xl: 2.5rem;
-  --font-size-5xl: 3.25rem;
+  --font-size-5xl: 3.5rem;
   
   /* ===== Spacing ===== */
-  --container-max: 1280px;
+  --container-max: 1200px;
   --header-height: 72px;
   --announcement-height: 36px;
   
   /* ===== Transitions ===== */
-  --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-base: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-slow: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   
   /* ===== Border Radius ===== */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 }
 
@@ -144,76 +145,84 @@ input, textarea, select {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px 32px;
-  border-radius: 0;
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
   font-weight: 500;
-  font-size: var(--font-size-xs);
-  transition: all var(--transition-base);
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-bounce);
+  letter-spacing: 0.5px;
   white-space: nowrap;
   font-family: var(--font-family);
+  border: 1px solid transparent;
 }
 
 .btn-primary {
   background: var(--color-primary);
   color: var(--color-text-white);
+  box-shadow: var(--shadow-md);
 }
 .btn-primary:hover {
   background: var(--color-primary-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn-accent {
   background: var(--color-accent);
   color: var(--color-text-white);
+  box-shadow: var(--shadow-md);
 }
 .btn-accent:hover {
   background: var(--color-accent-dark);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn-outline {
-  border: 1.5px solid var(--color-primary);
-  color: var(--color-primary);
-  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  background: var(--color-bg);
 }
 .btn-outline:hover {
-  background: var(--color-primary);
-  color: var(--color-text-white);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-outline-accent {
-  border: 1.5px solid var(--color-accent);
+  border: 1px solid var(--color-accent);
   color: var(--color-accent);
   background: transparent;
 }
 .btn-outline-accent:hover {
   background: var(--color-accent);
   color: var(--color-text-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-white {
-  background: var(--color-text-white);
-  color: var(--color-primary);
-  border: none;
-  font-weight: 600;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
 }
 .btn-white:hover {
-  background: var(--color-accent-light);
-  color: var(--color-primary-dark);
+  background: var(--color-bg-section);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-sm {
-  padding: 9px 20px;
-  font-size: 10px;
+  padding: 8px 16px;
+  font-size: var(--font-size-xs);
 }
 
 .btn-lg {
-  padding: 16px 42px;
-  font-size: var(--font-size-xs);
-  letter-spacing: 3px;
+  padding: 16px 36px;
+  font-size: var(--font-size-base);
 }
 
 .btn-full {
@@ -224,35 +233,38 @@ input, textarea, select {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 /* ===== SECTION TITLES ===== */
 .section-title {
   text-align: center;
   font-size: var(--font-size-4xl);
-  font-weight: 400;
+  font-weight: 700;
   font-family: var(--font-heading);
   color: var(--color-text);
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .section-title span {
   color: var(--color-accent);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-subtitle {
   text-align: center;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   color: var(--color-text-muted);
   margin-bottom: 48px;
   font-weight: 400;
   max-width: 520px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.8;
-  letter-spacing: 0.3px;
+  line-height: 1.6;
 }
 
 /* ===== ELEGANT DIVIDER ===== */
@@ -267,15 +279,17 @@ input, textarea, select {
 .section-divider::before,
 .section-divider::after {
   content: '';
-  width: 48px;
-  height: 0.5px;
-  background: var(--color-accent);
-  opacity: 0.5;
+  width: 60px;
+  height: 2px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
 }
 
 .section-divider span {
-  color: var(--color-accent);
-  font-size: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
 }
 
 /* ===== PRODUCT GRID ===== */

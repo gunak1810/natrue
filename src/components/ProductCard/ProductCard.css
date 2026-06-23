@@ -1,16 +1,17 @@
 .product-card {
   background: white;
   border: 1px solid var(--color-border);
-  border-radius: 0;
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: all var(--transition-bounce);
   position: relative;
+  box-shadow: var(--shadow-sm);
 }
 
 .product-card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
-  border-color: rgba(26, 60, 42, 0.15);
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-8px);
+  border-color: transparent;
 }
 
 .product-card-image {
@@ -74,23 +75,25 @@
 
 .quick-add-btn {
   width: 100%;
-  padding: 14px;
-  background: white;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.9);
   color: var(--color-primary);
-  border: 1px solid var(--color-border);
-  border-radius: 0;
-  font-weight: 500;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.5px;
   transition: all var(--transition-fast);
   cursor: pointer;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
 }
 
 .quick-add-btn:hover {
   background: var(--color-primary);
   color: white;
-  border-color: var(--color-primary);
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
 }
 
 .product-card-info {
