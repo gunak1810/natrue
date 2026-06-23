@@ -108,7 +108,7 @@ export default function Header() {
       {/* Announcement Bar */}
       <div className="announcement-bar">
         <div className="announcement-marquee">
-          <span>🎉 FREE Shipping on orders above ₹500! &nbsp;&nbsp;|&nbsp;&nbsp; Free Name Customization on all eligible products ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🎉 FREE Shipping on orders above ₹500! &nbsp;&nbsp;|&nbsp;&nbsp; Free Name Customization on all eligible products ✨</span>
+          <span>FREE DELIVERY ON ORDERS ABOVE ₹500 &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; 100% CERTIFIED ORGANIC PRODUCTS &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; FARM-TO-TABLE FRESHNESS GUARANTEED &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; FREE DELIVERY ON ORDERS ABOVE ₹500 &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; 100% CERTIFIED ORGANIC PRODUCTS &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; FARM-TO-TABLE FRESHNESS GUARANTEED</span>
         </div>
       </div>
 
@@ -123,11 +123,11 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="header-logo">
             <div className="logo-icon">
-              <span>🎨</span>
+              <span>N</span>
             </div>
             <div className="logo-text">
-              <span className="logo-name">CraftsZone</span>
-              <span className="logo-tagline">Since 2024</span>
+              <span className="logo-name">Natrue</span>
+              <span className="logo-tagline">Pure & Organic</span>
             </div>
           </Link>
 
@@ -191,7 +191,7 @@ export default function Header() {
               <input
                 ref={searchRef}
                 type="text"
-                placeholder="Search for products..."
+                placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
@@ -216,7 +216,7 @@ export default function Header() {
                         onClick={closeSearch}
                       >
                         <div className="search-result-img">
-                          {product.images?.[0] ? <img src={product.images[0]} alt={product.name} /> : '🎁'}
+                          {product.images?.[0] ? <img src={product.images[0]} alt={product.name} /> : 'N'}
                         </div>
                         <div className="search-result-info">
                           <span className="search-result-name">{product.name}</span>
@@ -237,7 +237,7 @@ export default function Header() {
             <div className="popular-searches">
               <h4>Popular Searches:</h4>
               <div className="search-tags">
-                {['Stationery', 'Return Gifts', 'LED Lamps', 'Keychains', 'DIY Kits'].map(tag => (
+                {['Honey', 'Cold-Pressed Oils', 'Millets', 'A2 Ghee', 'Spices'].map(tag => (
                   <Link key={tag} href={`/search?q=${encodeURIComponent(tag)}`} className="search-tag" onClick={closeSearch}>
                     {tag}
                   </Link>
@@ -252,7 +252,7 @@ export default function Header() {
       {/* Mobile Menu */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-header">
-          <span className="logo-name">CraftsZone</span>
+          <span className="logo-name">Natrue</span>
           <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
             <X size={24} />
           </button>

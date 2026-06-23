@@ -100,7 +100,7 @@ export default function ProductCard({ product }) {
           }}
           aria-label="Toggle Wishlist"
         >
-          <Heart size={18} fill={isWishlisted ? "#ec4899" : "none"} color={isWishlisted ? "#ec4899" : "#666"} />
+          <Heart size={18} fill={isWishlisted ? "#c97b3d" : "none"} color={isWishlisted ? "#c97b3d" : "#666"} />
         </button>
         <div className="product-card-overlay">
           <button 

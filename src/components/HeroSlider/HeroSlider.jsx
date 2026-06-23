@@ -10,40 +10,28 @@ import './HeroSlider.css';
 const defaultSlides = [
   {
     id: 1,
-    title: 'FREE Customization',
-    subtitle: 'NAME PRINT',
-    description: 'On all eligible products',
-    bg: 'linear-gradient(135deg, rgba(99, 102, 241, 0.7) 0%, rgba(79, 70, 229, 0.8) 100%)',
-    accent: '#ec4899',
-    emoji: '🎁'
+    title: 'Certified Organic',
+    subtitle: 'FARM TO TABLE',
+    description: 'Pure, natural, and chemical-free ingredients for your kitchen.',
+    bg: '#1a3c2a',
+    accent: '#b8860b'
   },
   {
     id: 2,
-    title: 'Return Gifts',
-    subtitle: 'Starting ₹20',
-    description: '1200+ options • Free Gift Wrapping',
-    bg: 'linear-gradient(135deg, rgba(236, 72, 153, 0.7) 0%, rgba(219, 39, 119, 0.8) 100%)',
-    accent: '#fbbf24',
-    emoji: '🎉'
+    title: 'Pure Oils & Honey',
+    subtitle: "NATURE'S GOLD",
+    description: 'Cold-pressed oils and raw, unprocessed honey from sustainable farms.',
+    bg: '#faf9f6',
+    textDark: true,
+    accent: '#946b08'
   },
   {
     id: 3,
-    title: 'New Arrivals',
-    subtitle: 'Trendy Collection',
-    description: 'Discover the latest gifts & stationery',
-    bg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.7) 0%, rgba(147, 51, 234, 0.8) 100%)',
-    accent: '#ffffff',
-    textDark: true, /* Using white text universally now though */
-    emoji: '✨'
-  },
-  {
-    id: 4,
-    title: 'Corporate Gifts',
-    subtitle: 'Personalized',
-    description: 'Pen, Keychain & Diary combos with your logo',
-    bg: 'linear-gradient(135deg, rgba(20, 184, 166, 0.7) 0%, rgba(13, 148, 136, 0.8) 100%)',
-    accent: '#f8fafc',
-    emoji: '🏢'
+    title: 'New Harvest',
+    subtitle: 'SEASONAL FRESH',
+    description: 'Freshly sourced millets, ancient grains, and powerful superfoods.',
+    bg: '#0f2419',
+    accent: '#b8860b'
   }
 ];
 
@@ -54,7 +42,7 @@ export default function HeroSlider({ banners }) {
     <div className="hero-slider">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         navigation
         loop
@@ -62,20 +50,25 @@ export default function HeroSlider({ banners }) {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="hero-slide" style={{ background: slide.bg || `var(--glass-bg-hover)` }}>
+            <div 
+              className={`hero-slide ${slide.textDark ? 'text-dark' : 'text-light'}`} 
+              style={{ background: slide.bg || '#1a3c2a' }}
+            >
+              {/* Refined subtle noise texture */}
+              <div className="hero-texture"></div>
+              
               <div className="hero-slide-content">
                 <div className="hero-text">
+                  <h2 className="hero-title">{slide.subtitle}</h2>
                   {slide.title && (
-                    <div className="hero-badge" style={{ background: slide.accent || '#E91E63' }}>
+                    <div className="hero-badge" style={{ color: slide.accent || '#b8860b' }}>
                       {slide.title}
                     </div>
                   )}
-                  <h2 className="hero-title">{slide.subtitle || slide.title}</h2>
                   <p className="hero-desc">{slide.description}</p>
-                  <button className="btn btn-white btn-lg hero-cta">SHOP NOW</button>
-                </div>
-                <div className="hero-visual">
-                  <span className="hero-emoji">{slide.emoji || '🎁'}</span>
+                  <button className={`btn btn-lg hero-cta ${slide.textDark ? 'btn-primary' : 'btn-white'}`}>
+                    Discover More
+                  </button>
                 </div>
               </div>
             </div>

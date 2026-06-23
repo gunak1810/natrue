@@ -1,4 +1,4 @@
-import { Truck, RefreshCw, Headphones } from 'lucide-react';
+import { ShieldCheck, Leaf, Feather, Droplets } from 'lucide-react';
 import './TrustBadges.css';
 
 export default function TrustBadges() {
@@ -7,29 +7,38 @@ export default function TrustBadges() {
       <div className="container trust-badges-grid">
         <div className="trust-badge">
           <div className="trust-icon">
-            <Truck size={32} />
+            <Leaf size={24} strokeWidth={1.5} />
           </div>
           <div className="trust-text">
-            <h4>FREE SHIPPING</h4>
-            <p>On orders above ₹500</p>
+            <h4>Certified Organic</h4>
+            <p>100% pure & natural</p>
           </div>
         </div>
         <div className="trust-badge">
           <div className="trust-icon">
-            <RefreshCw size={32} />
+            <Droplets size={24} strokeWidth={1.5} />
           </div>
           <div className="trust-text">
-            <h4>3 DAYS RETURN</h4>
-            <p>Easy return & refund policy</p>
+            <h4>Cold Pressed</h4>
+            <p>Retaining natural nutrients</p>
           </div>
         </div>
         <div className="trust-badge">
           <div className="trust-icon">
-            <Headphones size={32} />
+            <ShieldCheck size={24} strokeWidth={1.5} />
           </div>
           <div className="trust-text">
-            <h4>24/7 SUPPORT</h4>
-            <p>WhatsApp chat support</p>
+            <h4>No Preservatives</h4>
+            <p>Free from chemicals</p>
+          </div>
+        </div>
+        <div className="trust-badge">
+          <div className="trust-icon">
+            <Feather size={24} strokeWidth={1.5} />
+          </div>
+          <div className="trust-text">
+            <h4>Ethically Sourced</h4>
+            <p>Direct from farmers</p>
           </div>
         </div>
       </div>
