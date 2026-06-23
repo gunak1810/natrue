@@ -8,13 +8,12 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAqAy3G2K4iSaTfQqGL96-GLNvt-w8FI_I",
-  authDomain: "craftszone-324b1.firebaseapp.com",
-  projectId: "craftszone-324b1",
-  storageBucket: "craftszone-324b1.firebasestorage.app",
-  messagingSenderId: "383656257732",
-  appId: "1:383656257732:web:1e37892b58e417a12ec191",
-  measurementId: "G-1Y8N1MBSZE"
+  apiKey: "AIzaSyCrKiuDVlQXIX6gPUx-b3VCdybvUIKr6y4",
+  authDomain: "natrue-in.firebaseapp.com",
+  projectId: "natrue-in",
+  storageBucket: "natrue-in.firebasestorage.app",
+  messagingSenderId: "361325449945",
+  appId: "1:361325449945:web:ab63ec3c8790c936e524c8"
 };
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
