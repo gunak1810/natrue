@@ -158,7 +158,7 @@ export async function getUserProfile(userId) {
 }
 
 export async function updateUserProfile(userId, data) {
-  await updateDoc(doc(db, 'users', userId), data);
+  await setDoc(doc(db, 'users', userId), data, { merge: true });
 }
 
 export async function getUsers() {

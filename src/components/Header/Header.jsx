@@ -146,7 +146,7 @@ export default function Header() {
               </div>
             ))}
             <div className="nav-item">
-              <Link href="/collections/all" className="nav-link">View All</Link>
+              <Link href="/categories" className="nav-link">Categories</Link>
             </div>
           </nav>
 
@@ -216,7 +216,7 @@ export default function Header() {
                         onClick={closeSearch}
                       >
                         <div className="search-result-img">
-                          {product.images?.[0] ? <img src={product.images[0]} alt={product.name} /> : 'N'}
+                          {(product.image || product.images?.[0]) ? <img src={product.image || product.images[0]} alt={product.name} /> : 'N'}
                         </div>
                         <div className="search-result-info">
                           <span className="search-result-name">{product.name}</span>
@@ -259,6 +259,7 @@ export default function Header() {
         </div>
         <nav className="mobile-nav">
           <Link href="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link href="/categories" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Categories</Link>
           <Link href="/collections/all" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Shop All Products</Link>
           <hr />
           <Link href={user ? '/account' : '/auth/login'} className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>

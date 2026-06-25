@@ -136,9 +136,9 @@ export default function ProductPage() {
           {/* Image Gallery */}
           <div className="product-gallery">
             <div className="product-main-image" style={{ position: 'relative', width: '100%', aspectRatio: '1/1', background: '#f5f5f5', borderRadius: '16px', overflow: 'hidden' }}>
-              {product.images?.[0] ? (
+              {(product.image || product.images?.[0]) ? (
                 <Image 
-                  src={product.images[0]} 
+                  src={product.image || product.images[0]} 
                   alt={product.name} 
                   fill 
                   style={{ objectFit: 'cover' }} 

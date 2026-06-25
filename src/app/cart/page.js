@@ -13,10 +13,27 @@ export default function CartPage() {
     return (
       <div className="container">
         <div className="empty-state">
-          <ShoppingBag size={80} />
-          <h3>Your cart is empty</h3>
-          <p>Looks like you haven&#39;t added any items yet</p>
-          <Link href="/collections/all" className="btn btn-primary btn-lg">
+          <div className="empty-state-icon-wrapper">
+            <svg 
+              width="80" 
+              height="80" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="1.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              style={{ color: 'var(--color-primary)' }}
+            >
+              <path d="M4 7l.867 12.142A2 2 0 0 0 6.861 21h10.278a2 2 0 0 0 1.994-1.858L20 7H4z"></path>
+              <path d="M9 11v5"></path>
+              <path d="M15 11v5"></path>
+              <path d="M19 7a5.5 5.5 0 0 0-11-2"></path>
+            </svg>
+          </div>
+          <h3>Your basket is empty</h3>
+          <p>Looks like you haven&#39;t added any organic goodness yet</p>
+          <Link href="/collections/all" className="btn btn-primary btn-lg" style={{ borderRadius: '100px' }}>
             Start Shopping <ArrowRight size={16} />
           </Link>
         </div>

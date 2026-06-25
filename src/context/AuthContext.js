@@ -33,7 +33,8 @@ export function AuthProvider({ children }) {
           let profile = await getUserProfile(firebaseUser.uid);
           
           // Force admin role for the master admin email
-          if (firebaseUser.email === 'admin.craftszone@gmail.com' && (!profile || profile.role !== 'admin')) {
+          const isAdminAccount = firebaseUser.email === 'admin.craftszone@gmail.com' || firebaseUser.email === 'customersupport@natrue.in';
+          if (isAdminAccount && (!profile || profile.role !== 'admin')) {
             const adminData = { role: 'admin', email: firebaseUser.email, name: firebaseUser.displayName || 'Admin' };
             if (!profile) {
               await createUserProfile(firebaseUser.uid, { ...adminData, addresses: [], wishlist: [] });
@@ -59,11 +60,15 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
-    const isAdminAccount = email === 'admin.craftszone@gmail.com';
+    const isAdminAccount = email === 'admin.craftszone@gmail.com' || email === 'customersupport@natrue.in';
     
     let profile = await getUserProfile(result.user.uid);
-    if (isAdminAccount && profile?.role !== 'admin') {
-      await updateUserProfile(result.user.uid, { role: 'admin' });
+    if (isAdminAccount && (!profile || profile.role !== 'admin')) {
+      if (!profile) {
+        await createUserProfile(result.user.uid, { role: 'admin', email, name: result.user.displayName || 'Admin', addresses: [], wishlist: [] });
+      } else {
+        await updateUserProfile(result.user.uid, { role: 'admin' });
+      }
       profile = { ...profile, role: 'admin' };
     }
     
@@ -73,7 +78,7 @@ export function AuthProvider({ children }) {
 
   const register = async (email, password, name, phone) => {
     const result = await createUserWithEmailAndPassword(auth, email, password);
-    const isAdminAccount = email === 'admin.craftszone@gmail.com';
+    const isAdminAccount = email === 'admin.craftszone@gmail.com' || email === 'customersupport@natrue.in';
     
     const profileData = {
       name,
@@ -98,7 +103,7 @@ export function AuthProvider({ children }) {
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    const isAdminAccount = result.user.email === 'admin.craftszone@gmail.com';
+    const isAdminAccount = result.user.email === 'admin.craftszone@gmail.com' || result.user.email === 'customersupport@natrue.in';
     
     let profile = await getUserProfile(result.user.uid);
     if (!profile || (isAdminAccount && profile.role !== 'admin')) {

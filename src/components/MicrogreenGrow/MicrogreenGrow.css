@@ -1,0 +1,114 @@
+/* ===== MICROGREEN SCROLL ANIMATION — FULL HEIGHT ===== */
+.microgreen-container {
+  position: fixed;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  z-index: 50;
+  width: 130px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.microgreen-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 16px rgba(10, 61, 42, 0.08));
+}
+
+/* Glow behind plant — grows with stem */
+.microgreen-glow {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  min-height: 60px;
+  background: radial-gradient(ellipse at center, rgba(46, 204, 113, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(30px);
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Sparkle animation */
+.sparkle-particle {
+  animation: sparkleFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.4);
+  }
+}
+
+/* Growth Label — positioned at bottom */
+.microgreen-label {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.microgreen-label-dot {
+  width: 6px;
+  height: 6px;
+  background: #2ecc71;
+  border-radius: 50%;
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+.microgreen-label-text {
+  font-size: 10px;
+  font-weight: 600;
+  color: #0a3d2a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .microgreen-container {
+    left: 12px;
+    width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .microgreen-container {
+    left: 4px;
+    width: 70px;
+  }
+
+  .microgreen-label {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .microgreen-container {
+    left: 0;
+    width: 50px;
+  }
+}

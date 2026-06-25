@@ -33,7 +33,7 @@ export default function ProductCard({ product }) {
           id: product.id,
           name: product.name,
           price: product.salePrice || product.price,
-          image: product.images?.[0] || '',
+          image: product.image || product.images?.[0] || '',
           slug: product.slug
         }];
       }
@@ -69,12 +69,12 @@ export default function ProductCard({ product }) {
   return (
     <div className="product-card">
       <Link href={`/products/${product.slug}`} className="product-card-image">
-        {product.images?.[0] ? (
+        {(product.image || product.images?.[0]) ? (
           <Image 
-            src={product.images[0]} 
+            src={product.image || product.images[0]} 
             alt={product.name} 
-            fill 
-            style={{ objectFit: 'cover' }}
+            fill
+            className="product-image-3d"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (

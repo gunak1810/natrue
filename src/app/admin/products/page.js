@@ -440,8 +440,8 @@ export default function AdminProducts() {
                   <tr key={product.id}>
                     <td>
                       <div style={{ width: 40, height: 40, background: '#f0f0f0', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-                        {product.images?.[0] ? (
-                          <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover' }} />
+                        {(product.image || product.images?.[0]) ? (
+                          <Image src={product.image || product.images[0]} alt={product.name} fill style={{ objectFit: 'cover' }} />
                         ) : (
                           '🎁'
                         )}

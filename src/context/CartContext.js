@@ -90,7 +90,7 @@ export function CartProvider({ children }) {
         slug: product.slug,
         price: product.salePrice || product.price,
         originalPrice: product.price,
-        image: product.images?.[0] || '/images/placeholder.jpg',
+        image: product.image || product.images?.[0] || '/images/placeholder.jpg',
         variant,
         quantity
       }];

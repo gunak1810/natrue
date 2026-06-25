@@ -27,9 +27,10 @@ export default function CollectionPage() {
         } else {
           const cat = await getCategoryBySlug(slug);
           setCategory(cat);
-          prods = await getProducts({ category: slug });
-          if (prods.length === 0) {
-            prods = await getProducts({});
+          if (cat) {
+            prods = await getProducts({ category: cat.name });
+          } else {
+            prods = [];
           }
         }
         setProducts(prods);

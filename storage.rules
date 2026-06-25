@@ -1,0 +1,19 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Anyone can read images
+    match /{allPaths=**} {
+      allow read: if true;
+    }
+    
+    // Only authenticated admins can upload to products and banners folders
+    match /products/{imageId} {
+      allow write: if request.auth != null && request.auth.token.email in ['admin.craftszone@gmail.com', 'customersupport@natrue.in'];
+    }
+    
+    match /banners/{imageId} {
+      allow write: if request.auth != null && request.auth.token.email in ['admin.craftszone@gmail.com', 'customersupport@natrue.in'];
+    }
+  }
+}

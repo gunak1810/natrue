@@ -31,13 +31,25 @@
   
   --color-whatsapp: #25D366;
 
+  /* ===== Organic Nature Palette ===== */
+  --color-nature-deep: #0a3d2a;
+  --color-nature-mid: #1a6b4a;
+  --color-nature-light: #2ecc71;
+  --color-nature-glow: rgba(46, 204, 113, 0.15);
+  --color-nature-bg: #f0faf4;
+  --color-nature-soft: rgba(10, 61, 42, 0.06);
+
   /* ===== Modern Glass & Effects Tokens ===== */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-bg-hover: rgba(255, 255, 255, 0.9);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
-  --glass-border-heavy: 1px solid rgba(15, 23, 42, 0.05);
-  --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04);
-  --glass-shadow-hover: 0 12px 48px 0 rgba(15, 23, 42, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-bg-card: rgba(255, 255, 255, 0.08);
+  --glass-bg-hover: rgba(255, 255, 255, 0.18);
+  --glass-bg-solid: rgba(255, 255, 255, 0.72);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+  --glass-border-heavy: 1px solid rgba(255, 255, 255, 0.25);
+  --glass-border-green: 1px solid rgba(46, 204, 113, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(10, 61, 42, 0.08);
+  --glass-shadow-hover: 0 16px 48px 0 rgba(10, 61, 42, 0.14);
+  --glass-shadow-glow: 0 0 40px rgba(46, 204, 113, 0.15);
   --glass-blur: blur(20px);
   --glass-blur-heavy: blur(40px);
   
@@ -96,7 +108,11 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   color: var(--color-text);
-  background: var(--color-bg);
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(46, 204, 113, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 100%, rgba(26, 107, 74, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #f0faf4 0%, #ffffff 20%, #f8fdfb 80%, #f0faf4 100%);
+  background-attachment: fixed;
   line-height: 1.65;
   overflow-x: hidden;
   position: relative;

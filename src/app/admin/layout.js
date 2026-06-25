@@ -24,7 +24,8 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     if (!loading) {
-      if (!user || user.email !== 'admin.craftszone@gmail.com') {
+      const isAdminAccount = user?.email === 'admin.craftszone@gmail.com' || user?.email === 'customersupport@natrue.in' || userProfile?.role === 'admin';
+      if (!user || !isAdminAccount) {
         router.push('/auth/login');
       }
     }
