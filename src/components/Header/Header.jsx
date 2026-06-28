@@ -152,7 +152,8 @@ export default function Header() {
 
           {/* Header Actions */}
           <div className="header-actions">
-            <button className="header-action-btn" onClick={() => setSearchOpen(true)} aria-label="Search">
+            {/* Desktop Search Button */}
+            <button className="header-action-btn hide-mobile" onClick={() => setSearchOpen(true)} aria-label="Search">
               <Search size={20} />
               <span className="action-label">Search</span>
             </button>
@@ -161,7 +162,7 @@ export default function Header() {
               <span className="action-label">{user ? 'Account' : 'Login'}</span>
             </Link>
             {isAdmin && (
-              <Link href="/admin" className="header-action-btn admin-btn" aria-label="Admin Panel">
+              <Link href="/admin" className="header-action-btn admin-btn hide-mobile" aria-label="Admin Panel">
                 <span style={{ fontSize: '20px' }}>⚙️</span>
                 <span className="action-label">Admin</span>
               </Link>
@@ -179,6 +180,14 @@ export default function Header() {
               <span className="action-label">{isGoalScored ? 'GOAL!' : 'Cart'}</span>
             </button>
           </div>
+        </div>
+
+        {/* Mobile Search Bar - Only visible on mobile, below app bar */}
+        <div className="mobile-header-search show-mobile">
+          <button className="mobile-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Search">
+            <Search size={18} />
+            <span>Search for organic products...</span>
+          </button>
         </div>
       </header>
 
@@ -249,42 +258,53 @@ export default function Header() {
 
       )}
 
-      {/* Mobile Menu */}
-      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-header">
-          <span className="logo-name">Natrue</span>
-          <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
-            <X size={24} />
-          </button>
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay show-mobile" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-menu-header">
+              <span className="logo-name">Natrue</span>
+              <button className="mobile-menu-close" onClick={() => setMobileMenuOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            
+            <div className="mobile-menu-links">
+              {defaultNav.map(item => (
+                <Link key={item.name} href={item.href} className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+                  {item.name}
+                </Link>
+              ))}
+              
+              <div className="mobile-link-group">
+                <div className="mobile-link-group-title">Shop by Category</div>
+                <div className="mobile-link-group-items">
+                  {categories.map((cat) => (
+                    <Link 
+                      key={cat.id} 
+                      href={`/collections/${cat.slug}`} 
+                      className="mobile-sublink"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {cat.name}
+                    </Link>
+                  ))}
+                  <Link href="/categories" className="mobile-sublink" onClick={() => setMobileMenuOpen(false)}>
+                    All Categories
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <nav className="mobile-nav">
-          <Link href="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-          <Link href="/categories" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Categories</Link>
-          <Link href="/collections/all" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Shop All Products</Link>
-          <hr />
-          <Link href={user ? '/account' : '/auth/login'} className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-            {user ? 'My Account' : 'Login / Register'}
-          </Link>
-          {isAdmin && (
-            <Link href="/admin" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-              ⚙️ Admin Panel
-            </Link>
-          )}
-        </nav>
-      </div>
-      {mobileMenuOpen && <div className="overlay active" onClick={() => setMobileMenuOpen(false)} />}
-
-      {/* Cart Drawer */}
-      <CartDrawer />
-
-
+      )}
 
       {/* WhatsApp Button */}
       <WhatsAppButton />
 
       {/* Spacer */}
-      <div style={{ height: `calc(var(--header-height) + var(--announcement-height))` }} />
+      <div style={{ height: `calc(var(--header-height) + var(--announcement-height))` }} className="hide-mobile" />
+      <div style={{ height: '52px' }} className="show-mobile" />
     </>
   );
 }
-

@@ -13,6 +13,14 @@ import './HeroSlider.css';
 export default function HeroSlider() {
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     async function fetchBanners() {
@@ -30,7 +38,7 @@ export default function HeroSlider() {
 
 
   if (loading) {
-    return <section className="glass-carousel-section" style={{ minHeight: '400px' }}></section>;
+    return <section className="glass-carousel-section" style={{ minHeight: isMobile ? '180px' : '400px' }}></section>;
   }
 
   if (banners.length === 0) {
@@ -43,7 +51,7 @@ export default function HeroSlider() {
         <Swiper
           modules={[Pagination, Autoplay]}
           direction="vertical"
-          spaceBetween={0}
+          spaceBetween={isMobile ? 12 : 0}
           slidesPerView={1}
           pagination={{ clickable: true }}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
@@ -60,7 +68,7 @@ export default function HeroSlider() {
                 {(slide.showOverlay !== false) && (
                   <div className="glass-slide-content">
                     <div className="glass-slide-card">
-                      <span className="glass-slide-subtitle" style={{ color: slide.color }}>
+                      <span className="glass-slide-subtitle" style={{ color: isMobile ? '#fff' : slide.color }}>
                         {slide.subtitle}
                       </span>
                       <h2 className="glass-slide-title">{slide.title}</h2>
@@ -79,3 +87,4 @@ export default function HeroSlider() {
     </section>
   );
 }
+

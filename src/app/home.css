@@ -11,6 +11,12 @@
   position: relative;
 }
 
+@media (max-width: 768px) {
+  .glass-home {
+    padding-top: 140px; /* Push carousel down below the floating nav on mobile */
+  }
+}
+
 /* ===== SCROLL REVEAL ANIMATION ===== */
 .glass-reveal {
   opacity: 0;
@@ -577,123 +583,346 @@
 }
 
 @media (max-width: 768px) {
-  .glass-section {
-    padding: 40px 0;
+  /* ===== REMOVE ALL GLASS EFFECTS ON MOBILE ===== */
+  .glass-home {
+    background: #ffffff;
   }
 
+  .glass-section {
+    padding: 24px 0;
+  }
+
+  .glass-section-alt {
+    background: #f8f9fa;
+    backdrop-filter: none;
+  }
+
+  .glass-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .glass-revealed {
+    transform: none;
+  }
+
+  /* ===== SECTION HEADERS — COMPACT ===== */
+  .glass-section-header {
+    text-align: left;
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .glass-section-eyebrow {
+    display: none;
+  }
+
+  .glass-section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: #1a1a1a !important;
+    flex: 1;
+    line-height: 1.2;
+  }
+
+  .glass-title-light {
+    color: white;
+  }
+
+  .glass-section-subtitle {
+    display: none;
+  }
+
+  /* ===== SECTION ACTION — INLINE WITH HEADER ===== */
+  .glass-section-action {
+    margin-top: 16px;
+  }
+
+  .glass-btn-outline {
+    padding: 8px 16px;
+    font-size: 12px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    backdrop-filter: none;
+    border-radius: 8px;
+    color: #0a3d2a;
+  }
+
+  .glass-btn-outline:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ===== CATEGORY CHIPS — HORIZONTAL SCROLL ===== */
   .glass-category-section {
-    padding: 16px 0;
+    padding: 12px 0;
+    background: #fff;
+    border: none;
   }
 
   .glass-category-scroll {
-    justify-content: flex-start;
     flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 0 16px;
   }
 
   .glass-category-chip {
-    padding: 8px 16px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    border: none;
+    backdrop-filter: none;
   }
 
   .glass-chip-name {
-    font-size: 10px;
-    letter-spacing: 0.5px;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #333;
+    font-weight: 500;
   }
 
+  /* ===== CATEGORY GRID — HORIZONTAL CIRCULAR ICONS ===== */
   .glass-category-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 12px;
+    grid-template-columns: unset;
+    padding-bottom: 4px;
+  }
+
+  .glass-category-grid::-webkit-scrollbar {
+    display: none;
   }
 
   .glass-cat-card {
-    padding: 22px 16px;
+    flex-shrink: 0;
+    width: 80px;
+    padding: 16px 8px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    border: 1px solid #f0f0f0;
+    backdrop-filter: none;
+    box-shadow: none;
+    text-align: center;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glass-cat-card:hover {
+    transform: none;
+    box-shadow: none;
+    background: #f0f7f2;
+  }
+
+  .glass-cat-card-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
   }
 
   .glass-cat-card h3 {
-    font-size: var(--font-size-sm);
+    font-size: 10px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .glass-cat-arrow {
+    display: none;
+  }
+
+  .glass-cat-card-glow {
+    display: none;
+  }
+
+  /* ===== PROMISE SECTION — COMPACT 2x2 ===== */
+  .glass-promise-section {
+    padding: 24px 0;
+    background: #0a3d2a;
+  }
+
+  .glass-promise-section .glass-section-header {
+    text-align: center;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .glass-promise-section .glass-section-title {
+    text-align: center;
+    font-size: 16px;
+    color: white;
   }
 
   .glass-promise-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .glass-promise-card {
-    padding: 24px 16px;
+    padding: 16px 12px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: none;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-promise-card:hover {
+    transform: none;
+    box-shadow: none;
   }
 
   .glass-promise-icon {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
-    margin-bottom: 14px;
-  }
-
-  .glass-promise-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .glass-promise-number {
-    font-size: var(--font-size-xl);
     margin-bottom: 8px;
   }
 
+  .glass-promise-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .glass-promise-number {
+    display: none;
+  }
+
   .glass-promise-card h4 {
-    font-size: var(--font-size-base);
-    margin-bottom: 6px;
+    font-size: 13px;
+    margin-bottom: 4px;
   }
 
   .glass-promise-card p {
-    font-size: var(--font-size-xs);
-    line-height: 1.5;
+    font-size: 11px;
+    line-height: 1.4;
   }
 
+  /* ===== TESTIMONIALS — HORIZONTAL SCROLL ===== */
   .glass-testimonials-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 10px;
+    grid-template-columns: unset;
+    padding-bottom: 4px;
+  }
+
+  .glass-testimonials-grid::-webkit-scrollbar {
+    display: none;
   }
 
   .glass-testimonial-card {
-    padding: 22px;
+    flex-shrink: 0;
+    width: 260px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    backdrop-filter: none;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    scroll-snap-align: start;
+  }
+
+  .glass-testimonial-card:hover {
+    transform: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .glass-testimonial-stars {
+    margin-bottom: 10px;
   }
 
   .glass-testimonial-text {
-    font-size: var(--font-size-sm);
-    margin-bottom: 16px;
-    line-height: 1.7;
+    font-size: 13px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    font-style: normal;
   }
 
   .glass-testimonial-footer {
-    font-size: var(--font-size-xs);
-    padding-top: 12px;
+    padding-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .glass-testimonial-author {
+    font-size: 13px;
+  }
+
+  .glass-testimonial-product {
+    font-size: 9px;
+  }
+
+  /* ===== NEWSLETTER — SIMPLIFIED ===== */
+  .glass-newsletter-section {
+    padding: 24px 0 32px;
   }
 
   .glass-newsletter-panel {
-    padding: 36px 20px;
+    padding: 24px 16px;
+    background: #f8f9fa;
+    border: 1px solid #f0f0f0;
+    backdrop-filter: none;
+    border-radius: 12px;
+  }
+
+  .glass-newsletter-glow {
+    display: none;
+  }
+
+  .glass-newsletter-icon {
+    margin-bottom: 12px;
   }
 
   .glass-newsletter-panel h3 {
-    font-size: var(--font-size-xl);
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .glass-newsletter-panel p {
+    font-size: 13px;
+    margin-bottom: 16px;
   }
 
   .glass-newsletter-form {
     flex-direction: column;
+    gap: 8px;
   }
 
   .glass-newsletter-input {
-    text-align: center;
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: left;
+    background: white;
+    border: 1px solid #e0e0e0;
+    backdrop-filter: none;
   }
 
   .glass-newsletter-btn {
-    padding: 14px;
+    padding: 12px;
+    border-radius: 10px;
   }
 
-  .glass-btn-outline {
-    padding: 12px 28px;
-    font-size: 11px;
-  }
-
+  /* ===== GENERAL MOBILE CLEANUP ===== */
   .glass-empty-prompt {
-    padding: 32px 16px;
+    padding: 24px 16px;
   }
 }
+

@@ -633,6 +633,38 @@ input, textarea, select {
   }
 }
 
+/* ===== MOBILE UTILITY CLASSES ===== */
+@media (max-width: 768px) {
+  /* Horizontal scroll container for mobile */
+  .mobile-scroll-row {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  .mobile-scroll-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-scroll-row > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Hide scrollbar globally on mobile for horizontal sections */
+  .hide-scrollbar-mobile {
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar-mobile::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ===== PAGE TRANSITIONS ===== */
 .page-content {
   min-height: calc(100vh - var(--header-height) - var(--announcement-height));

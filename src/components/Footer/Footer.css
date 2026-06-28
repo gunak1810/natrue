@@ -187,51 +187,74 @@
 
 @media (max-width: 768px) {
   .footer-top {
-    padding: 12px 0;
-  }
-
-  .footer-top-content {
-    gap: 16px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footer-contact-item {
-    font-size: 9px;
+    padding: 10px 0;
+    display: none; /* Hide on mobile — too much info */
   }
 
   .footer-main {
-    padding: 48px 0 40px;
+    padding: 32px 0 24px;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 20px;
+  }
+
+  .footer-newsletter {
+    grid-column: auto;
   }
 
   .footer-desc {
     max-width: 100%;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .footer-logo {
+    margin-bottom: 12px;
   }
 
   .newsletter-form {
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 16px;
   }
 
   .newsletter-input {
     border-right: 1px solid var(--color-border);
+    border-radius: 8px;
   }
 
   .footer-heading {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    font-size: 11px;
   }
 
   .footer-links li {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+  }
+
+  .footer-socials {
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
   }
 
   .footer-bottom {
-    padding: 20px 0;
+    padding: 16px 0;
+    margin-bottom: 64px; /* Space for mobile bottom nav */
+  }
+
+  .footer-bottom p {
+    font-size: 9px;
   }
 }
+

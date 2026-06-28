@@ -577,12 +577,8 @@
     font-size: 1.1rem;
   }
 
-  .admin-btn, .header-action-btn[aria-label="Search"] {
+  .admin-btn {
     display: none !important;
-  }
-
-  .account-btn, .cart-btn {
-    display: flex !important;
   }
 
   .header-action-btn {
@@ -607,49 +603,89 @@
     padding: 0 16px;
     letter-spacing: 2px;
   }
+}
 
-  .floating-mobile-cart {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 56px;
-    height: 56px;
-    background: var(--color-primary);
-    border-radius: 50%;
+/* ===== MOBILE — CLEAN APP BAR STYLE ===== */
+@media (max-width: 768px) {
+  .announcement-bar {
+    display: none; /* Hide announcement on mobile — too noisy */
+  }
+
+  .header {
+    position: relative; /* Let it scroll away so FloatingNav can take over */
+    top: 0;
+    background: #ffffff;
+    backdrop-filter: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px; /* Space for the search bar */
+  }
+
+  .header-container {
+    height: 52px;
+    gap: 10px;
+    padding-bottom: 0;
+  }
+
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+
+  .header-logo {
+    gap: 0;
+    flex: 1; /* Take up remaining space */
+  }
+
+  .logo-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0a3d2a;
+  }
+
+  /* Show account and cart icons on mobile top right */
+  .header-actions {
+    gap: 12px;
+  }
+
+  .header-action-btn.account-btn,
+  .header-action-btn.cart-btn {
+    display: flex !important;
+    padding: 6px;
+    min-width: unset;
+  }
+
+  .header-action-btn .action-label {
+    display: none; /* Hide text labels on mobile for a clean look */
+  }
+
+  .cart-icon-wrapper {
+    margin: 0;
+  }
+
+  /* Dedicated mobile search bar below app bar */
+  .mobile-header-search {
+    padding: 0 16px;
+    margin-top: 4px;
+  }
+
+  .mobile-search-trigger {
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 24px rgba(26, 60, 42, 0.3);
-    z-index: 1000;
-    animation: scaleIn 0.3s ease-out forwards;
+    gap: 8px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #999;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .floating-cart-count {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    background: var(--color-accent);
-    color: white;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid white;
-  }
-
-  .goal-points-badge-mobile {
-    background: var(--color-success);
-    width: auto;
-    padding: 2px 6px;
-    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  }
-
-  .goal-anim-mobile {
-    animation: shakeAndScale 0.6s ease;
-    background: var(--color-success);
+  /* Adjust header spacer */
+  .mobile-menu {
+    top: 0;
   }
 }
+
